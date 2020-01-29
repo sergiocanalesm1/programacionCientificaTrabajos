@@ -167,6 +167,30 @@ def catorce():
     distanciaEuclidiana = ((numeros[3]-numeros[1])**2+(numeros[2]-numeros[0])**2)**(1/2)
     print("la distancia euclidiana entre {} y {}, es: {}".format(numeros[0:2],numeros[2:],distanciaEuclidiana))
 
+def quince():
+    print("ingrese un número de segundos ")
+    segundosTotales = input()
+    segundos = int(segundosTotales)
+    tiempo = [86400,3600,60]
+    respuesta = []
+    #itera sobre el dias, horas y minutos y le va quitando el valor convertido a la variable segundos
+    for x in tiempo:
+        aQuitar = int(segundos / x)
+        respuesta.append(aQuitar)
+        segundos -= aQuitar*x
+
+    print("{} segundos son: {} día(s), {} hora(s), {} minuto(s) y {} segundo(s)".format(segundosTotales,respuesta[0],respuesta[1],respuesta[2],segundos))
+
+def dieciseis():
+    print("ingrese un número hasta el cual quiera obtener todos los primos anteriores")
+    n = int(input())
+    primos = []
+
+
+
+
+
+
 
 # uno()
 # dos()
@@ -181,4 +205,6 @@ def catorce():
 # once()
 # doce()
 #trece()
-catorce()
+#catorce()
+#quince()
+dieciseis()
