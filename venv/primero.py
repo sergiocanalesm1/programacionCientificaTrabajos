@@ -185,26 +185,112 @@ def dieciseis():
     print("ingrese un número hasta el cual quiera obtener todos los primos anteriores")
     n = int(input())
     primos = []
+    for posiblesPrimos in range(2,n):
+        esPrimo = True
+        for divisor in range(2,posiblesPrimos):
+            if posiblesPrimos % divisor == 0:
+                esPrimo = False
+                #se sale para no seguir preguntado
+                break
+        #si hace todo el ciclo anterior y no se modifió la variable esPrimo, entonces se agrega a la lista de primos
+        if esPrimo:
+            primos.append(posiblesPrimos)
+    print(primos)
 
+def diecisiete():
+    print("ingrese un número para ver todos los anteriores")
+    n = int(input())
+    #se agregan todos a una lista para imprimirlos después
+    #todosLosAnteriores = [x for x in range(n+1)]
+    todosLosAnteriores = []
+    for x in range(n+1):
+        todosLosAnteriores.append(x)
+    print(todosLosAnteriores)
 
+def dieciocho():
+    print("ingrese una lista de números separados por un espacio para encontrar el máximo")
+    numerosString = input().split()
+    numeros = list(map(int, numerosString))
+    max = -2^64 #el minimo creo
+    for n in numeros:
+        if n > max:
+            max = n
+    print("el número más grande es: ", max)
 
+def diecinueve():
+    print("ingrese una lista de números separados por un espacio para encontrar el mínimo")
+    numerosString = input().split()
+    numeros = list(map(int, numerosString))
+    min = 2^64 #el maximo creo
+    for n in numeros:
+        if n < min:
+            min = n
+    print("el número más pequeño es: ", min)
 
+def veinte():
+    print("ingrese una lista de números separados por un espacio para encontrar el promedio")
+    numerosString = input().split()
+    numeros = list(map(int, numerosString))
+    suma = 0
+    #suma todos los números de arreglo y después lo divide por el tamaño
+    for n in numeros:
+        suma += n
+    print("el promedio es: ", suma/len(numeros))
+def veintiuno():
+    print("ingrese una lista de números separados por un espacio para encontrar el promedio")
+    numerosString = input().split()
+    numeros = list(map(int, numerosString))
+    suma = 0
+    # suma todos los números de arreglo y después lo divide por el tamaño para optener el promedio
+    for n in numeros:
+        suma += n
+    promedio = suma / len(numeros)
+    #recorre la lista para calcular la desviación estandar
+    varianza = 0
+    for n in numeros:
+        #se calcula qué tan alejados estan los datos del promedio al cuadrado
+        varianza += (n-promedio)**2
+    # se calcula qué tan alejados estan los datos del promedio, en promedio
+    varianza /= len(numeros) -1
+    print("la desviación estándar es: ", varianza**(1/2))
+def veintidos():
+    print("ingrese una lista de números separados por un espacio para encontrar la mediana")
+    numerosString = input().split()
+    numeros = list(map(int, numerosString))
+    #algoritmo de selección, muy ineficiente
+    #coge un elemento y lo compara contra todos, ordena ascendentemente
+    for iAordenar in range(len(numeros)):
+        min = numeros[iAordenar]
+        minIndex = -1
+        for iAcomparar in range(iAordenar + 1, len(numeros)):
+            if numeros[iAcomparar] < min:
+                min = numeros[iAcomparar]
+                minIndex = iAcomparar
+        if min != numeros[iAordenar]:
+            #swap
+            numeros[iAordenar],numeros[minIndex] = numeros[minIndex],numeros[iAordenar]
+    #si es par hace el promedio entre los dos de la mitad, si es impar coge el de la mitad
+    mitad = int(len(numeros)/2)
+    if len(numeros) % 2 != 0:
+        mediana = numeros[mitad]
+    else:
+        mediana = numeros[mitad-1] + numeros[mitad]
+        mediana /= 2
+    print("la lista ordenada es {} y la mediana es: {}".format(numeros,mediana))
 
+def veintitres():
+    print("ingrese una lista de números separados por un espacio para encontrar la moda")
+    numerosString = input().split()
+    numeros = list(map(int, numerosString))
+    moda = 0
+    repeticionesGlobal = 0
+    for posibleModa in numeros:
+        repeticionesLocal = 0
+        for posibleRepeticion in numeros:
+            if posibleRepeticion == posibleModa:
+                repeticionesLocal+=1
+        if repeticionesLocal > repeticionesGlobal:
+            moda = posibleModa
+            repeticionesGlobal = repeticionesLocal
+    print("la moda es: ",moda)
 
-
-# uno()
-# dos()
-# tres()
-#cuatro()
-# cinco()
-# seis()
-# siete()
-# ocho()
-# nueve()
-#diez()
-# once()
-# doce()
-#trece()
-#catorce()
-#quince()
-dieciseis()
