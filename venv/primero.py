@@ -130,10 +130,10 @@ def once():
     numerosString = input().split()
     #se convierten los caracteres a enteros usando map
     numeros = list(map(int, numerosString))
-    if numeros[1] == numeros[2] == numeros[3]:
+    if numeros[0] == numeros[1] == numeros[2]:
         print(0)
     else:
-        print(sum(numeros))
+        print(numeros[0] + numeros[1] + numeros[2])
 
 
 def doce():
@@ -160,7 +160,7 @@ def trece():
     print(" ({} + {}) ^ 2 es: {}".format(x,y,op))
 #Escriba un programa que devuelva la distancia Euclidiana entre dos puntos x1, y1) y (x2, y2)
 def catorce():
-    print("ingrese dos puntos cardinales en el siguiente formato: x1 y1 x2 y2")
+    print("ingrese dos puntos cardinales en el siguiente formato: x1 y1 x2 y2 para calcular la distancia Euclidiana")
     numerosString = input().split()
     numeros = list(map(int, numerosString))
     #se utiliza la ecuación
@@ -168,7 +168,7 @@ def catorce():
     print("la distancia euclidiana entre {} y {}, es: {}".format(numeros[0:2],numeros[2:],distanciaEuclidiana))
 
 def quince():
-    print("ingrese un número de segundos ")
+    print("ingrese un número de segundos para convertirlo en días, horas, minutos y segundos")
     segundosTotales = input()
     segundos = int(segundosTotales)
     tiempo = [86400,3600,60]
@@ -179,7 +179,7 @@ def quince():
         respuesta.append(aQuitar)
         segundos -= aQuitar*x
 
-    print("{} segundos son: {} día(s), {} hora(s), {} minuto(s) y {} segundo(s)".format(segundosTotales,respuesta[0],respuesta[1],respuesta[2],segundos))
+    print("{} segundo(s) son: {} día(s), {} hora(s), {} minuto(s) y {} segundo(s)".format(segundosTotales,respuesta[0],respuesta[1],respuesta[2],segundos))
 
 def dieciseis():
     print("ingrese un número hasta el cual quiera obtener todos los primos anteriores")
@@ -212,6 +212,7 @@ def dieciocho():
     numerosString = input().split()
     numeros = list(map(int, numerosString))
     max = -2^64 #el minimo creo
+    #itera sobre el arreglo y guarda una variable con el máximo, de encontrar uno mayor, se modifica
     for n in numeros:
         if n > max:
             max = n
@@ -222,6 +223,7 @@ def diecinueve():
     numerosString = input().split()
     numeros = list(map(int, numerosString))
     min = 2^64 #el maximo creo
+    # itera sobre el arreglo y guarda una variable con el mínimo, de encontrar uno menor, se modifica
     for n in numeros:
         if n < min:
             min = n
@@ -237,7 +239,7 @@ def veinte():
         suma += n
     print("el promedio es: ", suma/len(numeros))
 def veintiuno():
-    print("ingrese una lista de números separados por un espacio para encontrar el promedio")
+    print("ingrese una lista de números separados por un espacio para encontrar la desviación estándar")
     numerosString = input().split()
     numeros = list(map(int, numerosString))
     suma = 0
@@ -257,17 +259,17 @@ def veintidos():
     print("ingrese una lista de números separados por un espacio para encontrar la mediana")
     numerosString = input().split()
     numeros = list(map(int, numerosString))
-    #algoritmo de selección, muy ineficiente
-    #coge un elemento y lo compara contra todos, ordena ascendentemente
+    #algoritmo de selección sobre un mismo arreglo
+    #coge un elemento y lo compara contra todos. Escoge el menor y lo pone en esa posición, ordena ascendentemente
     for iAordenar in range(len(numeros)):
         min = numeros[iAordenar]
-        minIndex = -1
+        minIndex = 0
         for iAcomparar in range(iAordenar + 1, len(numeros)):
             if numeros[iAcomparar] < min:
                 min = numeros[iAcomparar]
                 minIndex = iAcomparar
         if min != numeros[iAordenar]:
-            #swap
+            #swap, si es el menor encontrado, se intercambia
             numeros[iAordenar],numeros[minIndex] = numeros[minIndex],numeros[iAordenar]
     #si es par hace el promedio entre los dos de la mitad, si es impar coge el de la mitad
     mitad = int(len(numeros)/2)
@@ -284,6 +286,7 @@ def veintitres():
     numeros = list(map(int, numerosString))
     moda = 0
     repeticionesGlobal = 0
+    #recorre el arreglo n^2 veces para encontrar cuanto se repite cada posición, luego se compara contra el que más haya tenido y de ser mayor, se modifica
     for posibleModa in numeros:
         repeticionesLocal = 0
         for posibleRepeticion in numeros:
@@ -294,3 +297,52 @@ def veintitres():
             repeticionesGlobal = repeticionesLocal
     print("la moda es: ",moda)
 
+def veinticuatro():
+    print("ingrese una lista de números separados por un espacio para ordenarla descendentemente")
+    numerosString = input().split()
+    numeros = list(map(int, numerosString))
+    # algoritmo de selección sobre un mismo arreglo
+    # coge un elemento y lo compara contra todos. Escoge el mayor y lo pone en esa posición
+    for iAordenar in range(len(numeros)):
+        max = numeros[iAordenar]
+        maxIndex = 0
+        for iAcomparar in range(iAordenar + 1, len(numeros)):
+            if numeros[iAcomparar] > max:
+                max = numeros[iAcomparar]
+                maxIndex = iAcomparar
+        if max != numeros[iAordenar]:
+            # swap, si es el menor encontrado, se intercambia
+            numeros[iAordenar], numeros[maxIndex] = numeros[maxIndex], numeros[iAordenar]
+    print(numeros)
+
+def veinticinco():
+    print("ingrese una lista de números separados por un espacio para encontrar los múltiplos de 7")
+    numerosString = input().split()
+    numeros = list(map(int, numerosString))
+    multiplosde7 = []
+    #si el residuo es 0 al dividirlo por 7, es multiplo
+    for x in numeros:
+        if x % 7 == 0:
+            multiplosde7.append(x)
+    print(multiplosde7)
+
+
+def ventiseis():
+    print("ingrese las dimensiones NxM de una matriz separadas por un espacio")
+    dimensionesString = input().split()
+    print("ingrese un entero para llegar la matriz")
+    n = int(input())
+    N = int(dimensionesString[0])
+    M = int(dimensionesString[1])
+    #crea dos listas, la principal (lista de listas) y la que va a ser llenada con n. Una vez se llenen M ns, se agrega la lista 2 a la 1 y
+
+    list1=[]
+    list2 = []
+    for i in range(N):
+        list2 = []
+        for i in range(M):
+            list2.append(n)
+        list1.append(list2)
+    print(list1)
+
+#def veintisiete():
