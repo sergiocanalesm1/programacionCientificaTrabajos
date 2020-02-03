@@ -345,4 +345,17 @@ def ventiseis():
         list1.append(list2)
     print(list1)
 
-#def veintisiete():
+def veintisiete():
+    print("ingrese un n tal que n^2 sean las dimensiones de una matriz")
+    dimensiones = int(input())
+    matriz = []
+    for i in range(dimensiones):
+        print("ingrese {} números separados por un espacio para la posición {} de la matriz con {} posiciones ".format(dimensiones,i+1,dimensiones))
+        numerosString = input().split()
+        numeros = list(map(int, numerosString))
+        matriz.append(numeros)
+    sumaDiag=0
+    for i in range(len(matriz)):
+        sumaDiag += matriz[i][i]
+    return "la suma en diagonal de la matriz {} es: {}".format(matriz,sumaDiag)
+
