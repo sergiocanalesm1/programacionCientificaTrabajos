@@ -38,23 +38,33 @@ def tres():
 
 # Escriba un programa que calcule el número de días entre dos fechas en formato AAAA-MM-DD.
 def cuatro():
-    print("escriba dos fechas en formato AAAA-MM-DD separadas por un espacio para calcular la diferencia de días")
+    print("escriba dos fechas en formato AAAA-MM-DD separadas por un espacio para calcular la diferencia de días, la primera tiene que ser mayor a la segunda")
     fechas = input()
     # se separa el string inicial para obtener las dos fechas
     primera = fechas.split()[0]
     segunda = fechas.split()[1]
     #se saca la diferencia entre los años, meses y días al  separar cada fecha por su año, mes y día y restar
+
     años = int(primera.split("-")[0]) - int(segunda.split("-")[0])
     meses = int(primera.split("-")[1]) - int(segunda.split("-")[1])
     dias = int(primera.split("-")[2]) - int(segunda.split("-")[2])
-    #se multiplica la diferencia por su unidad
+
+    #le quita un ano para pasarlo a unidad en meses si los meses son negativos
+    if meses < 0:
+        años-=1
+        meses = 12 + meses
+    #le quita un mes para pasarlo a unidad de dias si los dias son negativos
+    if dias < 0:
+        meses-=1
+        dias = 30 + dias
+
     diferencia = abs(años * 365 + meses * 30 + dias)
 
     print(
-        "asumiendo que un año tiene 365 días y que un mes tiene 30 días, la diferencia absoluta entre las fechas es: {} día(s)".format(
+        "asumiendo que un año tiene 365 días y que un mes tiene 30 días, la diferencia de dias entre las fechas es: {} día(s)".format(
             diferencia))
 
-
+cuatro()
 # Escriba un programa que pregunte el radio de una esfera y calcule el volumen.
 def cinco():
     print("escriba el radio de una esfera para calcular su volumen")
@@ -346,16 +356,75 @@ def ventiseis():
     print(list1)
 
 def veintisiete():
-    print("ingrese un n tal que n^2 sean las dimensiones de una matriz")
+    print("ingrese un n tal que n^2 sean las dimensiones de una matriz para sumar su diagonal principal")
     dimensiones = int(input())
     matriz = []
     for i in range(dimensiones):
-        print("ingrese {} números separados por un espacio para la posición {} de la matriz con {} posiciones ".format(dimensiones,i+1,dimensiones))
+        print("ingrese {} números separados por un espacio para la posición {} de la matriz con {} posiciones ".format(dimensiones,i,dimensiones))
         numerosString = input().split()
         numeros = list(map(int, numerosString))
         matriz.append(numeros)
     sumaDiag=0
     for i in range(len(matriz)):
+        #coge el primer elemento de la primera lista, luego el segundo de la segunda y asi
         sumaDiag += matriz[i][i]
-    return "la suma en diagonal de la matriz {} es: {}".format(matriz,sumaDiag)
+    print("la suma en diagonal de la matriz {} es: {}".format(matriz,sumaDiag))
 
+def veintiocho():
+    print("ingrese un n tal que n^2 sean las dimensiones de una matriz para sumar su diagonal secundaria")
+    dimensiones = int(input())
+    matriz = []
+    for i in range(dimensiones):
+        print("ingrese {} números separados por un espacio para la posición {} de la matriz con {} listas ".format(dimensiones,i,dimensiones))
+        numerosString = input().split()
+        numeros = list(map(int, numerosString))
+        matriz.append(numeros)
+    sumaDiagSec=0
+    for i in range(len(matriz)):
+        #coge la primero el ultimo elemento de la primera lista, luego el penultimo de la segunda y asi
+        sumaDiagSec += matriz[i][-i-1]
+    print("la suma en diagonal de la matriz {} es: {}".format(matriz,sumaDiagSec))
+
+def veintinueve():
+    print("ingrese un n tal que n^2 sean las dimensiones de las matrices a sumar")
+    dimensiones = int(input())
+
+    matriz1 = []
+    for i in range(dimensiones):
+        print("ingrese {} números separados por un espacio para la posición {} de la PRIMERA matriz con {} listas ".format(dimensiones,i,dimensiones))
+        numerosString = input().split()
+        numeros = list(map(int, numerosString))
+        matriz1.append(numeros)
+
+    matriz2 = []
+    for i in range(dimensiones):
+        print("ingrese {} números separados por un espacio para la posición {} de la SEGUNDA matriz con {} listas ".format(dimensiones,i,dimensiones))
+        numerosString = input().split()
+        numeros = list(map(int, numerosString))
+        matriz2.append(numeros)
+
+    for i in range(dimensiones):
+        for j in range(dimensiones):
+            #se suman las mismas posiciones de las dos matrices para modificar la primera matriz
+            matriz1[i][j] = matriz1[i][j] + matriz2[i][j]
+    print( 'la matriz sumada es: ', matriz1)
+
+def treinta():
+    print("ingrese un n y m separados por un espacio tal que n*m sean las dimensiones de la matriz a trasponer")
+    NyM = input().split()
+    n = int(NyM[0])
+    m = int(NyM[1])
+    transpuesta = []
+    matriz = []
+    for i in range(n):
+        print("ingrese {} números separados por un espacio para la posición {} de la matriz con {} listas ".format(m, i, n))
+        numerosString = input().split()
+        numeros = list(map(int, numerosString))
+        matriz.append(numeros)
+    #se invierten las dimensiones y se recorre la matriz de la siguiente forma: columna,fila. luego se agrega a una matriz nueva como fila
+    for x in range(m):
+        listaTranspuesta = []
+        for y in range(n):
+            listaTranspuesta.append(matriz[y][x])
+        transpuesta.append(listaTranspuesta)
+    print('la matriz transpuesta de {} es: {}'.format(matriz,transpuesta))
