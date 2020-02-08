@@ -6,17 +6,17 @@ import math
 
 
 # 1 Escriba un programa que pregunte el radio de un círculo y calcule el área
-
+##
 
 print("Escriba el radio para calcular el área de un círulo")
 radio = float(input())
 #se usa la librería math para acceder a la constate pi
 area = math.pi * (radio ** 2)
 print("el area del círculo con radio {} es: ".format(radio, area))
-
+##
 
 # 2 Escriba un programa que pregunte el nombre y apellido y los imprima en orden contrario
-
+##
 
 print("escriba su nombre y su apellido separados por un espacio para cambiarles el orden")
 nombreYapellido = input()
@@ -24,18 +24,19 @@ nombreYapellido = input()
 nombre = nombreYapellido.split(" ")[0]
 apellido = nombreYapellido.split(" ")[1]
 print("{} {}".format(apellido, nombre))
-
+##
 #3
 # Escriba un programa que pregunte un número n y calcule el valor de n+n*n+n*n*n.
 
-
+##
 print("escriba un número n para calcular n+n*n+n*n*n")
 n = float(input())
 print(n ** 3 + n ** 2 + n)
+##
 
 #4
 # Escriba un programa que calcule el número de días entre dos fechas en formato AAAA-MM-DD.
-
+##
 print("escriba dos fechas en formato AAAA-MM-DD separadas por un espacio para calcular la diferencia de días, la primera tiene que ser mayor a la segunda")
 fechas = input()
 # se separa el string inicial para obtener las dos fechas
@@ -64,16 +65,16 @@ print(
 
 #5
 # Escriba un programa que pregunte el radio de una esfera y calcule el volumen.
-
+##
 print("escriba el radio de una esfera para calcular su volumen")
 radio = float(input())
 #se utiliza la librería math para obtener pi
 volumen = (4 / 3) * math.pi * radio ** 3
 print("el volumen de la esfera con radio {} es: {}".format(radio, volumen))
-
+##
 #6
 # Escriba un programa que calcule la diferencia entre un número n y 12. Si la diferencia es mayor que
-
+##
 print("escriba un número entero para calcular su diferencia con 12")
 n = int(input())
 
@@ -81,11 +82,11 @@ if abs(12-n) > 12:
     print("como la magnitud de la diferencia de {} y 12 es mayor a 12, su diferencia absoluta al cuadrado es: {}".format(n, (n - 12) ** 2))
 else:
     print("la diferencia entre 12 y {} es: {}".format(n, 12 - n))
-
+##
 #7
 # Escriba un programa que verifique si un número es menor que 100 o está entre 100 y 1000 o entre
 # 1000 y 2000 o es mayor que 2000.
-
+##
 print("ingrese un número para verificar su rango")
 n = int(input())
 if n < 100:
@@ -96,8 +97,8 @@ elif 1001 <= n < 2001:
     print("1001 < {} <= 2000".format(n))
 else:
     print("2000 < {}".format(n))
-
-
+##
+##
 #8
 print("ingrese un número entero para ver si es impar")
 n = int(input())
@@ -106,10 +107,10 @@ if n % 2 == 0:
     print("par")
 else:
     print("impar")
-
+##
 #9
 # Escriba un programa que cuente el número de veces que se repite el número n en un arreglo
-
+##
 print("escriba un número para saber su ocurrencia en una lista")
 n = input()
 print("ingrese la lista de números separados por comas")
@@ -121,9 +122,9 @@ for i in arreglo:
     if i == n:
         contador+=1
 print("{} aparece {} veces en {}]".format(n, contador,arreglo))
-
+##
 #10
-
+##
 print("ingrese una cadena de caracteres")
 cadena = input()
 print(
@@ -131,9 +132,9 @@ print(
 n = int(input())
 #el siguiente rango coge los últimos n caracteres de la cadena
 print("los últimos {} caracteres de la cadena {}, son: {}".format(n, cadena, cadena[-n:]))
-
+##
 #11
-
+##
 print("ingrese 3 números separados por un espacio para calcular su suma, de ser iguales, debe retornar 0")
 numerosString = input().split()
 #se convierten los caracteres a enteros usando map
@@ -142,8 +143,9 @@ if numeros[0] == numeros[1] == numeros[2]:
     print(0)
 else:
     print(numeros[0] + numeros[1] + numeros[2])
-
+##
 #12
+##
 print("escriba dos números separados por un espacio para calcular su suma, si está [15,20], devuelve 20")
 numerosString = input().split()
 #se pasan los caracteres a map
@@ -157,28 +159,29 @@ if suma in range(15, 21):
     print(20)
 else:
     print(suma)
-
+##
 #13
 # Escriba un programa que devuelva la siguiente operación entre dos números: (x + y) * (x + y).
-
+##
 print("ingrese dos números separados por un espacio para calcular (x + y) * (x + y)")
 inp = input().split()
 x = int(inp[0])
 y = int(inp[1])
 op = (x + y) ** 2
 print(" ({} + {}) ^ 2 es: {}".format(x,y,op))
-
+##
 #14
 #Escriba un programa que devuelva la distancia Euclidiana entre dos puntos x1, y1) y (x2, y2)
-
+##
 print("ingrese dos puntos cardinales en el siguiente formato: x1 y1 x2 y2 para calcular la distancia Euclidiana")
 numerosString = input().split()
 numeros = list(map(int, numerosString))
 #se utiliza la ecuación
 distanciaEuclidiana = ((numeros[3]-numeros[1])**2+(numeros[2]-numeros[0])**2)**(1/2)
 print("la distancia euclidiana entre {} y {}, es: {}".format(numeros[0:2],numeros[2:],distanciaEuclidiana))
-
+##
  #15
+##
 print("ingrese un número de segundos para convertirlo en días, horas, minutos y segundos")
 segundosTotales = input()
 segundos = int(segundosTotales)
@@ -189,10 +192,11 @@ for x in tiempo:
     aQuitar = int(segundos / x)
     respuesta.append(aQuitar)
     segundos -= aQuitar*x
-
+##
 print("{} segundo(s) son: {} día(s), {} hora(s), {} minuto(s) y {} segundo(s)".format(segundosTotales,respuesta[0],respuesta[1],respuesta[2],segundos))
 
- #16
+#16
+##
 print("ingrese un número hasta el cual quiera obtener todos los primos anteriores")
 n = int(input())
 primos = []
@@ -207,8 +211,9 @@ for posiblesPrimos in range(2,n):
     if esPrimo:
         primos.append(posiblesPrimos)
 print(primos)
-
+##
  #17
+##
 print("ingrese un número para ver todos los anteriores")
 n = int(input())
 #se agregan todos a una lista para imprimirlos después
@@ -217,8 +222,9 @@ todosLosAnteriores = []
 for x in range(n+1):
     todosLosAnteriores.append(x)
 print(todosLosAnteriores)
-
+##
  #18
+##
 print("ingrese una lista de números separados por un espacio para encontrar el máximo")
 numerosString = input().split()
 numeros = list(map(int, numerosString))
@@ -228,8 +234,9 @@ for n in numeros:
     if n > max:
         max = n
 print("el número más grande es: ", max)
-
+##
  #19
+##
 print("ingrese una lista de números separados por un espacio para encontrar el mínimo")
 numerosString = input().split()
 numeros = list(map(int, numerosString))
@@ -239,8 +246,9 @@ for n in numeros:
     if n < min:
         min = n
 print("el número más pequeño es: ", min)
-
+##
 #20
+##
 print("ingrese una lista de números separados por un espacio para encontrar el promedio")
 numerosString = input().split()
 numeros = list(map(int, numerosString))
@@ -249,9 +257,9 @@ suma = 0
 for n in numeros:
     suma += n
 print("el promedio es: ", suma/len(numeros))
-
+##
 #21
-
+##
 print("ingrese una lista de números separados por un espacio para encontrar la desviación estándar")
 numerosString = input().split()
 numeros = list(map(int, numerosString))
@@ -268,9 +276,9 @@ for n in numeros:
 # se calcula qué tan alejados estan los datos del promedio, en promedio
 varianza /= len(numeros) -1
 print("la desviación estándar es: ", varianza**(1/2))
-
+##
 #22
-
+##
 print("ingrese una lista de números separados por un espacio para encontrar la mediana")
 numerosString = input().split()
 numeros = list(map(int, numerosString))
@@ -294,8 +302,9 @@ else:
     mediana = numeros[mitad-1] + numeros[mitad]
     mediana /= 2
 print("la lista ordenada es {} y la mediana es: {}".format(numeros,mediana))
-
+##
  #23
+##
 print("ingrese una lista de números separados por un espacio para encontrar la moda")
 numerosString = input().split()
 numeros = list(map(int, numerosString))
@@ -311,8 +320,9 @@ for posibleModa in numeros:
         moda = posibleModa
         repeticionesGlobal = repeticionesLocal
 print("la moda es: ",moda)
-
+##
  #24
+##
 print("ingrese una lista de números separados por un espacio para ordenarla descendentemente")
 numerosString = input().split()
 numeros = list(map(int, numerosString))
@@ -329,8 +339,9 @@ for iAordenar in range(len(numeros)):
         # swap, si es el menor encontrado, se intercambia
         numeros[iAordenar], numeros[maxIndex] = numeros[maxIndex], numeros[iAordenar]
 print(numeros)
-
+##
 #25
+##
 print("ingrese una lista de números separados por un espacio para encontrar los múltiplos de 7")
 numerosString = input().split()
 numeros = list(map(int, numerosString))
@@ -340,9 +351,9 @@ for x in numeros:
     if x % 7 == 0:
         multiplosde7.append(x)
 print(multiplosde7)
-
+##
 #26
-
+##
 print("ingrese las dimensiones NxM de una matriz separadas por un espacio")
 dimensionesString = input().split()
 print("ingrese un entero para llegar la matriz")
@@ -359,8 +370,9 @@ for i in range(N):
         list2.append(n)
     list1.append(list2)
 print(list1)
-
+##
  #27
+##
 print("ingrese un n tal que n^2 sean las dimensiones de una matriz para sumar su diagonal principal")
 dimensiones = int(input())
 matriz = []
@@ -374,8 +386,9 @@ for i in range(len(matriz)):
     #coge el primer elemento de la primera lista, luego el segundo de la segunda y asi
     sumaDiag += matriz[i][i]
 print("la suma en diagonal de la matriz {} es: {}".format(matriz,sumaDiag))
-
+##
  #28
+##
 print("ingrese un n tal que n^2 sean las dimensiones de una matriz para sumar su diagonal secundaria")
 dimensiones = int(input())
 matriz = []
@@ -389,8 +402,9 @@ for i in range(len(matriz)):
     #coge la primero el ultimo elemento de la primera lista, luego el penultimo de la segunda y asi
     sumaDiagSec += matriz[i][-i-1]
 print("la suma en diagonal de la matriz {} es: {}".format(matriz,sumaDiagSec))
-
+##
 #29
+##
 print("ingrese un n tal que n^2 sean las dimensiones de las matrices a sumar")
 dimensiones = int(input())
 
@@ -413,8 +427,9 @@ for i in range(dimensiones):
         #se suman las mismas posiciones de las dos matrices para modificar la primera matriz
         matriz1[i][j] = matriz1[i][j] + matriz2[i][j]
 print( 'la matriz sumada es: ', matriz1)
-
+##
 #30
+##
 print("ingrese un n y m separados por un espacio tal que n*m sean las dimensiones de la matriz a trasponer")
 NyM = input().split()
 n = int(NyM[0])
@@ -433,3 +448,4 @@ for x in range(m):
         listaTranspuesta.append(matriz[y][x])
     transpuesta.append(listaTranspuesta)
 print('la matriz transpuesta de {} es: {}'.format(matriz,transpuesta))
+##
