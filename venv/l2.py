@@ -1,4 +1,4 @@
-##
+## Punto 1
 print("Ingrese un numero decimal entero para convertirlo a binario")
 entero = int(input())
 binario = ""
@@ -14,12 +14,14 @@ if entero == int(entero):
 else:
     print("ingrese un número entero")
 
-##
+## Punto 2
+# falta revisar negativos
 print("Ingrese un numero para convertirlo a complemento a 2")
 entrada = input()
 if "," not in entrada or "." not in entrada:
+    # es entero
     enteroGlobal = int(entrada)
-    entero = enteroGlobal #para guardar el valor y llamarlo más adelante, el entero normalito se modifica
+    entero = enteroGlobal #el entero normalito se modifica
     print("Ingrese el número de bits con los que quiere representar {}".format(entero))
     bits = int(input())
     bitsGlobal = bits #para guardar el valor y llamarlo más adelante, bits normalito se modifica
@@ -37,9 +39,27 @@ if "," not in entrada or "." not in entrada:
         entero = entero // 2
     if suficientesBits:
         print("el número {} en binario es: {}".format(enteroGlobal,binario))
-        ##toca invertirlo
-        ##sumarle 1
-        #print(enteroGlobal == binario_a_decimal(binario))#para verificar
+        #toca invertirlo
+        complementoA1 = [abs(int(bit)-1) for bit in binario]# se crea una nueva lista invirtiendo cada bit
+        stringComplementoA1 = [str(x) for x in complementoA1]#para poder mostrarlo en consola
+        print("el complemento a 1 es: {}".format("".join(stringComplementoA1)))
+        #sumarle 1
+        tocaSumar = True  # booleano para verificar si ya puede parar de sumar
+        i = len(binario) - 1
+        while True:
+            if i < 0 and bitsGlobal > len(complementoA1):
+                complementoA1.insert(0, "1")  # toca hacerlo así porque va ser un string más grande
+                break
+            if int(complementoA1[i]) + 1 == 2:  # si era uno
+                complementoA1[i] = "0"  # sigue haciendo el while
+                i -= 1
+            else:  # si es cero
+                complementoA1[i] = "1"
+                break
+        complementoA2Lista = [str(bit) for bit in complementoA1]
+        complementoA2 = "".join(complementoA2Lista)
+
+        print("el complemento a 2 del entero {} con {} bits, es: {}".format(enteroGlobal,bitsGlobal,complementoA2))
     else:
         print("{} bits no son suficientes para expresar el entero {}".format(bitsGlobal, enteroGlobal))
 else:
