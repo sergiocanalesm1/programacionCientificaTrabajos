@@ -1,18 +1,18 @@
 ## Punto 1
-# print("Ingrese un numero decimal entero para convertirlo a binario")
-# entero = int(input())
-# binario = ""
-# if entero == int(entero):
-#     if entero > 0:
-#         #cumple requisitos
-#         while entero > 0:
-#             binario = str(entero % 2) + binario #funciona porque binario es un string y se añade el residuo como un caracter
-#             entero = entero // 2
-#         print(binario)
-#     else:
-#         print("ingrese un número positivo")
-# else:
-#     print("ingrese un número entero")
+print("Ingrese un numero decimal entero para convertirlo a binario")
+entero = int(input())
+binario = ""
+if entero == int(entero):
+    if entero > 0:
+        #cumple requisitos
+        while entero > 0:
+            binario = str(entero % 2) + binario #funciona porque binario es un string y se añade el residuo como un caracter
+            entero = entero // 2
+        print(binario)
+    else:
+        print("ingrese un número positivo")
+else:
+    print("ingrese un número entero")
 
 ## Punto 2
 
@@ -122,4 +122,3 @@ def sumar1bit(binario,bits):
                 listaBinarios[i] = "1"
                 break
     return "".join(listaBinarios)#devuelve un string
-
