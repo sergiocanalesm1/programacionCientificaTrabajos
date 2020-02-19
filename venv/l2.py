@@ -141,7 +141,19 @@ if "," not in entrada or "." not in entrada:
         print("{} bits no son suficientes para expresar el entero {} en offset".format(bitsGlobal, enteroGlobal))
 else:
     print("el número no es entero")
+##punto 4 decimal con 32 bits
+#1) primer bit para ver si es negativo o positivo
+#2) los siguientes 8 bits representan el exponenete
+#3) la matissa (23 bits) (dec/2^exp)-1
 
+print("ingrese un número decimal para mostrar su representación en binario con 32 bits")
+decimal = float(input())
+binario = "0"
+#1) primer bit para ver si es negativo o positivo
+if decimal < 0:
+    binario = "1"
+#2) los siguientes 8 bits representan el exponenete
+bits = 8
 
 
 ##
