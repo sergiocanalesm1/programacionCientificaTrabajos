@@ -209,3 +209,36 @@ def sumar1bit(binario,bits):
                 listaBinarios[i] = "1"
                 break
     return "".join(listaBinarios)#devuelve un string
+##
+import math
+
+
+x = math.pi
+decimalGlobal = (x/2**1)-1
+mantissa = ""
+
+
+def bin_a_flotante(binario):
+    listBin = [int(x) for x in binario]
+    listBin.reverse()
+    dec = 0.0
+    exponente = 1
+    for bit in listBin:
+        dec += bit*(2**-exponente)
+        exponente += 1
+    return dec
+
+decimal = decimalGlobal
+for i in range(1,53):
+    #print("---")
+
+    if decimal >= 2**(-i):
+        mantissa = "1" + mantissa
+        decimal = decimal - 2**(-i)
+    else:
+        mantissa = "0" + mantissa
+    #print("decimal entrante: {} decimal que sale:{} a potencia de 2: {} mantissa: {}".format(y,decimal,2**-i,mantissa[-i]))
+    #print("aaaaaa")
+
+print(decimalGlobal)
+print(bin_a_flotante(mantissa) == decimalGlobal)
