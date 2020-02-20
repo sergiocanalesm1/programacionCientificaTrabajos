@@ -149,8 +149,10 @@ import math
 print("ingrese un número decimal para mostrar su representación en punto flotante con 32 bits")
 decimalG = float(input())
 decimal = abs(decimalG)
-
-if -127 <= decimalG <= 128:
+bitsExponente = 8
+bitsMantissa = 23
+rango = 127
+if -rango <= decimalG <= rango + 1:
     # 1) primer bit para ver si es negativo o positivo
     signo = "0"
     if decimalG < 0:
@@ -160,98 +162,62 @@ if -127 <= decimalG <= 128:
     offset = 127 + exponente
     #pasarlo a binario
     offsetBinario = ""
-    bitsExponente = 8
-    print('offset {}'.format(offset))
-    while offset > 0:
-        offsetBinario = str(offset % 2) + offsetBinario
+
+    while offset >= 1:
+        offsetBinario += str(offset % 2)
         offset = offset // 2
         bitsExponente -= 1
-    print('offset binario {}'.format(offsetBinario))
     # 3) la matissa (23 bits) (dec/2^exp)-1
-
     decimal = -1 + decimal/(2**exponente)
     mantissa = ''
-    for i in range(1,24):
+    for i in range(1,bitsMantissa + 1):
         if decimal >= 2 ** (-i):
-            mantissa = "1" + mantissa
+            mantissa += "1"
             decimal = decimal - 2 ** (-i)
         else:
-            mantissa = "0" + mantissa
-
-    print('mantissa {}'.format(mantissa))
-    print('en 32 bits, el decimal {} se representa como {} '.format(decimalG, signo+offsetBinario+mantissa))
+            mantissa += "0"
+    print('en 32 bits, el decimal {} se representa como {} {} {} '.format(decimalG, signo,offsetBinario,mantissa))
 else:
     print('el numero {} no puede ser representado con 32 bits'.format(decimal))
 
 
+##punto 5 decimal con 64 bits
+#1) primer bit para ver si es negativo o positivo
+#2) los siguientes 11 bits representan el exponenete
+#3) la mantissa (52 bits) (dec/2^exp)-1
+import math
+print("ingrese un número decimal para mostrar su representación en punto flotante con 32 bits")
+decimalG = float(input())
+decimal = abs(decimalG)
+bitsExponente = 11
+bitsMantissa = 52
+rango = 127
+if -rango <= decimalG <= rango + 1:
+    # 1) primer bit para ver si es negativo o positivo
+    signo = "0"
+    if decimalG < 0:
+        signo = "1"
+    # 2) los siguientes bits representan el exponenete
+    exponente = int(math.log(decimal,2)) # el ultimo exponente de 2 que divide al numero decimal
+    offset = 127 + exponente
+    #pasarlo a binario
+    offsetBinario = ""
 
+    while offset >= 1:
+        offsetBinario += str(offset % 2)
+        offset = offset // 2
+        bitsExponente -= 1
+    # 3) la matissa (23 bits) (dec/2^exp)-1
+    decimal = -1 + decimal/(2**exponente)
+    mantissa = ''
+    for i in range(1,bitsMantissa + 1):
+        if decimal >= 2 ** (-i):
+            mantissa += "1"
+            decimal = decimal - 2 ** (-i)
+        else:
+            mantissa += "0"
+    print('en 32 bits, el decimal {} se representa como {} {} {} '.format(decimalG, signo,offsetBinario,mantissa))
+else:
+    print('el numero {} no puede ser representado con 32 bits'.format(decimal))
 
-##
-def decimal_a_binario(entero,bits):
-    enteroGlobal = entero #para guardar el valor y llamarlo más adelante, el entero normalito se modifica
-    bitsGlobal = bits #para guardar el valor y llamarlo más adelante, bits normalito se modifica
-    binario = ""
-    suficientesBits = True
-    while bits >= 0:
-        if bits == 0 and entero > 0:
-            suficientesBits = False
-            break
-        if entero == 0:
-            binario = str("0")*bits+binario #como binario es un string, simplemente toca multiplicar por 0s para rellenar
-            break
-        binario += str(entero % 2) #como binario es un string, los nuevos caracteres se agregan a la izquierda
-        bits-=1
-        entero = entero // 2
-    if suficientesBits:
-        return binario
-        #print(enteroGlobal == binario_a_decimal(binario))#para verificar
-    else:
-        print("{} bits no son suficientes para expresar el entero {}".format(bitsGlobal, enteroGlobal))
-        return None
-
-def binario_a_decimal(binario):
-    decimal = 0
-    for i in range(len(binario)-1,-1,-1):
-        posBin = int(binario[i])
-        exp = len(binario)-i-1
-        decimal += posBin*2**exp
-    return(decimal)
-def entero_a_complemento2():
-    print("ingrese un entero para representarlo binariamente en complemente a 2")
-    entero = int(input())
-    print("ingrese el número de bits con los que quiere representar {}".format(entero))
-    bits = int(input())
-    if entero > 0:
-        print(sumar1bit(decimal_a_binario(entero,bits)))
-
-def sumar1bit(binario,bits):
-    tocaSumar = True #booleano para verificar si ya puede parar de sumar
-    i = len(binario)-1
-    listaBinarios = list(binario)#se pasa a una lista para poder asignar
-    while True:
-        if i < 0 and bits > len(binario):
-            listaBinarios.insert(0,"1") # toca hacerlo así porque va ser un string más grande
-            break
-        if int(binario[i]) + 1 == 2:#si era uno
-            listaBinarios[i] =  "0" #sigue haciendo el while
-            i -= 1
-        else:#si es cero
-                listaBinarios[i] = "1"
-                break
-    return "".join(listaBinarios)#devuelve un string
-##
-print
-
-
-
-
-def bin_a_flotante(binario):
-    listBin = [int(x) for x in binario]
-    listBin.reverse()
-    dec = 0.0
-    exponente = 1
-    for bit in listBin:
-        dec += bit*(2**-exponente)
-        exponente += 1
-    return dec
 
