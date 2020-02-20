@@ -152,7 +152,7 @@ decimal = abs(decimalG)
 bitsExponente = 8
 bitsMantissa = 23
 rango = 127
-if -rango <= decimalG <= rango + 1:
+if -2**rango <= decimalG <= 2**rango:
     # 1) primer bit para ver si es negativo o positivo
     signo = "0"
     if decimalG < 0:
@@ -191,8 +191,8 @@ decimalG = float(input())
 decimal = abs(decimalG)
 bitsExponente = 11
 bitsMantissa = 52
-rango = 127
-if -rango <= decimalG <= rango + 1:
+rango = 1024
+if -2**rango <= decimalG <= 2**rango:
     # 1) primer bit para ver si es negativo o positivo
     signo = "0"
     if decimalG < 0:
@@ -207,7 +207,7 @@ if -rango <= decimalG <= rango + 1:
         offsetBinario += str(offset % 2)
         offset = offset // 2
         bitsExponente -= 1
-    # 3) la matissa (23 bits) (dec/2^exp)-1
+    # 3) la matissa (52 bits) (dec/2^exp)-1
     decimal = -1 + decimal/(2**exponente)
     mantissa = ''
     for i in range(1,bitsMantissa + 1):
