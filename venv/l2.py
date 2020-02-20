@@ -152,7 +152,7 @@ decimal = abs(decimalG)
 bitsExponente = 8
 bitsMantissa = 23
 rango = 127
-if -2**rango <= decimalG <= 2**rango:
+if -rango <= decimalG <= rango+1:
     # 1) primer bit para ver si es negativo o positivo
     signo = "0"
     if decimalG < 0:
@@ -192,7 +192,7 @@ decimal = abs(decimalG)
 bitsExponente = 11
 bitsMantissa = 52
 rango = 1024
-if -2**rango <= decimalG <= 2**rango:
+if -rango <= decimalG <= rango+1:
     # 1) primer bit para ver si es negativo o positivo
     signo = "0"
     if decimalG < 0:
