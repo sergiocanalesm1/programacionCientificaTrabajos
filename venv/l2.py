@@ -145,15 +145,45 @@ else:
 #1) primer bit para ver si es negativo o positivo
 #2) los siguientes 8 bits representan el exponenete
 #3) la matissa (23 bits) (dec/2^exp)-1
+import math
+print("ingrese un número decimal para mostrar su representación en punto flotante con 32 bits")
+decimalG = float(input())
+decimal = abs(decimalG)
 
-print("ingrese un número decimal para mostrar su representación en binario con 32 bits")
-decimal = float(input())
-binario = "0"
-#1) primer bit para ver si es negativo o positivo
-if decimal < 0:
-    binario = "1"
-#2) los siguientes 8 bits representan el exponenete
-bits = 8
+if -127 <= decimalG <= 128:
+    # 1) primer bit para ver si es negativo o positivo
+    signo = "0"
+    if decimalG < 0:
+        signo = "1"
+    # 2) los siguientes 8 bits representan el exponenete
+    exponente = int(math.log(decimal,2)) # el ultimo exponente de 2 que divide al numero decimal
+    offset = 127 + exponente
+    #pasarlo a binario
+    offsetBinario = ""
+    bitsExponente = 8
+    print('offset {}'.format(offset))
+    while offset > 0:
+        offsetBinario = str(offset % 2) + offsetBinario
+        offset = offset // 2
+        bitsExponente -= 1
+    print('offset binario {}'.format(offsetBinario))
+    # 3) la matissa (23 bits) (dec/2^exp)-1
+
+    decimal = -1 + decimal/(2**exponente)
+    mantissa = ''
+    for i in range(1,24):
+        if decimal >= 2 ** (-i):
+            mantissa = "1" + mantissa
+            decimal = decimal - 2 ** (-i)
+        else:
+            mantissa = "0" + mantissa
+
+    print('mantissa {}'.format(mantissa))
+    print('en 32 bits, el decimal {} se representa como {} '.format(decimalG, signo+offsetBinario+mantissa))
+else:
+    print('el numero {} no puede ser representado con 32 bits'.format(decimal))
+
+
 
 
 ##
@@ -210,12 +240,9 @@ def sumar1bit(binario,bits):
                 break
     return "".join(listaBinarios)#devuelve un string
 ##
-import math
+print
 
 
-x = math.pi
-decimalGlobal = (x/2**1)-1
-mantissa = ""
 
 
 def bin_a_flotante(binario):
@@ -228,17 +255,3 @@ def bin_a_flotante(binario):
         exponente += 1
     return dec
 
-decimal = decimalGlobal
-for i in range(1,53):
-    #print("---")
-
-    if decimal >= 2**(-i):
-        mantissa = "1" + mantissa
-        decimal = decimal - 2**(-i)
-    else:
-        mantissa = "0" + mantissa
-    #print("decimal entrante: {} decimal que sale:{} a potencia de 2: {} mantissa: {}".format(y,decimal,2**-i,mantissa[-i]))
-    #print("aaaaaa")
-
-print(decimalGlobal)
-print(bin_a_flotante(mantissa) == decimalGlobal)
