@@ -1,3 +1,10 @@
+'''
+Sergio Canales
+Universidad de los Andes
+Programación Científica
+'''
+
+
 #1. escriba una funcion que sume todos los datos de un arreglo
 def uno():
     print('ingrese numeros separados por un espacio para calcular su suma')
@@ -34,7 +41,7 @@ def cuatro():
     cadena = "".join(entra).casefold() #para quitar los espacios y casefold para poner todo en minusculas y no tener problemas comparando
     print(polindroma(cadena,cadena[0],cadena[-1],0))
 def polindroma(cadena,recorridoNormal,recorridoInverso,contador):
-    if recorridoNormal != recorridoInverso:
+    if recorridoNormal != recorridoInverso:#si los caracteres a comparar son diferentes, no es palidroma
         return False
     elif contador == len(cadena) -1:#para ver si ya termino de comparar
         return True
@@ -52,10 +59,137 @@ def cinco():
         print(False)
     else:
         print(fibonacci(1,1,n))
-def fibonacci(f_x1,f_x2,f_n):
-    if f_x1 >= f_n or f_x2 >= f_n:
+def fibonacci(f_x1,f_x2,numero_usuario):
+    if f_x1 >= numero_usuario or f_x2 >= numero_usuario:#si la suma ya se pasa, no pertenece a fibonacci
         return False
-    elif f_x1 + f_x2 == f_n:
+    elif f_x1 + f_x2 == numero_usuario:
         return True
     else:
-        return fibonacci(f_x2,f_x1 + f_x2,f_n) #el primer valor se convierte en el que estaba de segundo y el segundo se convierte en la suma de los primeros dos
+        return fibonacci(f_x2,f_x1 + f_x2,numero_usuario) #el primer valor se convierte en el que estaba de segundo y el segundo se convierte en la suma de los primeros dos
+
+#6. escriba una función que calcule la media de las filas o columnas de una matriz
+def seis():
+    print("escriba un n para ingresar n número de listas")
+    n = int(input())
+    matriz = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números".format(x+1,n,n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        lista = list(map(int,ingreso))
+        matriz.append(lista.copy())#para agregar lo que ingresa el usuario a la matriz
+        lista.clear()#para usar la misma lista (gracias al .copy())
+    print("desea calcular la media según filas o columnas? ingrese F o C")
+    criterio = input()
+    if "F" != criterio and "C" != criterio:
+        print("ingrese F o C, nada más")
+        return None
+    if criterio == "F":
+        for fila in matriz:
+            print("el promedio de la fila {} es : {}".format(fila,sum(fila)/n))
+    else:
+        for cIndex in range(n):
+            columna = []
+            for fIndex in range(n):
+                columna.append(matriz[fIndex][cIndex])#el cIndex se queda fijo por cada lista, esto nos da la columna al final de la iteración
+            print(" el promedio de la columna {} es {}".format(columna, sum(columna)/n))
+            columna.clear()  # se crea una lista con la columna de la matriz, se encuentra el promedio y se borra
+
+#7. ingrese una función que de el máximo de cada fila o columna en una matriz
+def siete():
+    print("escriba un n para ingresar n número de listas")
+    n = int(input())
+    matriz = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números".format(x+1,n,n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        lista = list(map(int,ingreso))
+        matriz.append(lista.copy())#para agregar lo que ingresa el usuario a la matriz
+        lista.clear()#para usar la misma lista (gracias al .copy())
+    print("desea calcular el máximo según filas o columnas? ingrese F o C")
+    criterio = input()
+    if "F" != criterio and "C" != criterio:
+        print("ingrese F o C, nada más")
+        return None
+    if criterio == "F":
+        for fila in matriz:
+            print("el máximo de la fila {} es : {}".format(fila, max(fila)))
+    else:
+        for cIndex in range(n):
+            columna = []
+            for fIndex in range(n):
+                columna.append(matriz[fIndex][cIndex])#el cIndex se queda fijo por cada lista, esto nos da la columna al final de la iteración
+            print(" el máximo de la columna {} es {}".format(columna, max(columna)))
+            columna.clear()#se crea una lista con la columna de la matriz, se encuentra el máximo y se borra
+
+#8. cree una función que calcule el minimo de una matriz por filas o columnas
+def ocho():
+    print("escriba un n para ingresar n número de listas")
+    n = int(input())
+    matriz = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números".format(x + 1, n, n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        lista = list(map(int, ingreso))
+        matriz.append(lista.copy())  # para agregar lo que ingresa el usuario a la matriz
+        lista.clear()  # para usar la misma lista (gracias al .copy())
+    print("desea calcular el máximo según filas o columnas? ingrese F o C")
+    criterio = input()
+    if "F" != criterio and "C" != criterio:
+        print("ingrese F o C, nada más")
+        return None
+    if criterio == "F":
+        for fila in matriz:
+            print("el mínimo de la fila {} es : {}".format(fila, min(fila)))
+    else:
+        for cIndex in range(n):
+            columna = []
+            for fIndex in range(n):
+                columna.append(matriz[fIndex][cIndex])#el cIndex se queda fijo por cada lista, esto nos da la columna al final de la iteración
+            print(" el mínimo de la columna {} es {}".format(columna, min(columna)))
+            columna.clear()  # se crea una lista con la columna de la matriz, se encuentra el mínimo y se borra
+
+#9. cree una función que sume elemento por elemento dos matrices
+def nueve():
+    print("escriba un n para ingresar n número de listas para la matriz 1")
+    n = int(input())
+    matriz = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números para la matriz 1".format(x + 1, n, n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        lista = list(map(int, ingreso))
+        matriz.append(lista.copy())  # para agregar lo que ingresa el usuario a la matriz
+        lista.clear()  # para usar la misma lista (gracias al .copy())
+    print("escriba un n para ingresar n número de listas para la matriz 2")
+    n = int(input())
+    matriz2 = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números para la matriz 2".format(x + 1, n, n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        lista = list(map(int, ingreso))
+        matriz2.append(lista.copy())  # para agregar lo que ingresa el usuario a la matriz
+        lista.clear()  # para usar la misma lista (gracias al .copy())
+
+    sumMatriz = []
+    for fIndex in range(n):
+        fila = []
+        for cIndex in range(n):
+            suma = matriz[fIndex][cIndex] + matriz2[fIndex][cIndex]
+            fila.append(suma)
+        sumMatriz.append(fila.copy())
+        fila.clear()
+    print(sumMatriz)
