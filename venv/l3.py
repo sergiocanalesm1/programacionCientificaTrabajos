@@ -374,5 +374,14 @@ def once10():
     arr2 = np.array(matriz2)
     print("\n la suma de las matrices es: {}".format(arr1 @ arr2))
 
+def doce():
+    #for x in range(1,11):
+    a =  np.linspace(0,10,100)
+    ran = np.sin(a*10/(2*np.pi)    )
+    plt.figure()
+    plt.plot(a,ran)
+    plt.title("sine")
+    plt.show()
+doce()
 
 
