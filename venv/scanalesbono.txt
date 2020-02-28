@@ -1,0 +1,14 @@
+import numpy as np
+import matplotlib.pyplot as p
+import struct as st
+
+
+f = open("averagebin1.bin","rb")
+file = f.read()
+paquete = st.unpack("f"*int(len(file)/4),file)
+mean = np.mean(paquete)
+print(len(paquete))
+
+print(paquete[2])
+print(paquete[21])
+print(paquete[43])

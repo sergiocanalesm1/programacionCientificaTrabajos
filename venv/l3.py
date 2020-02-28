@@ -193,3 +193,33 @@ def nueve():
         sumMatriz.append(fila.copy())
         fila.clear()
     print(sumMatriz)
+
+#10. escriba una función que calcule una multiplicación de matrices
+def diez():
+    print("escriba un n para ingresar n número de listas para la matriz 1")
+    n = int(input())
+    matriz = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números para la matriz 1".format(x + 1, n,
+                                                                                                               n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        lista = list(map(int, ingreso))
+        matriz.append(lista.copy())  # para agregar lo que ingresa el usuario a la matriz
+        lista.clear()  # para usar la misma lista (gracias al .copy())
+    print("escriba un n para ingresar n número de listas para la matriz 2")
+    n = int(input())
+    matriz2 = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números para la matriz 2".format(x + 1, n,
+                                                                                                               n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        lista = list(map(int, ingreso))
+        matriz2.append(lista.copy())  # para agregar lo que ingresa el usuario a la matriz
+        lista.clear()  # para usar la misma lista (gracias al .copy())
+
