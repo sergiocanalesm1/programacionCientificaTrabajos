@@ -4,6 +4,8 @@ Universidad de los Andes
 Programación Científica
 '''
 
+import numpy as np
+import matplotlib.pyplot as plt
 
 #1. escriba una funcion que sume todos los datos de un arreglo
 def uno():
@@ -206,9 +208,7 @@ def diez():
         if len(ingreso) != n:
             print("por favor, ingrese lo especificado")
             return None
-        lista = list(map(int, ingreso))
-        matriz.append(lista.copy())  # para agregar lo que ingresa el usuario a la matriz
-        lista.clear()  # para usar la misma lista (gracias al .copy())
+        matriz.append(list(map(int, ingreso)))
     print("escriba un n para ingresar n número de listas para la matriz 2")
     n = int(input())
     matriz2 = []
@@ -219,7 +219,160 @@ def diez():
         if len(ingreso) != n:
             print("por favor, ingrese lo especificado")
             return None
-        lista = list(map(int, ingreso))
-        matriz2.append(lista.copy())  # para agregar lo que ingresa el usuario a la matriz
-        lista.clear()  # para usar la misma lista (gracias al .copy())
+        matriz2.append(list(map(int, ingreso)))
+    newMatrix = []
+    for fIndex in range(n):
+        lista = []
+        for cIndex in range(n):
+            sum_product = 0
+            for iterable in range(n):
+                    sum_product += matriz[fIndex][iterable] * matriz2[iterable][cIndex] #solo se necesita un for que en la matriz uno recorra la fila general (moviendose por todas las columnas) y en la matriz 2 la columna general (moviendose por todas las filas)
+            lista.append(sum_product)
+        newMatrix.append(lista.copy())
+        lista.clear()
+    print(newMatrix)
+
+
+
+
+
+#11. del 6-10 con numpy
+#escriba una función que calcule la media de las filas o columnas de una matriz
+def once6():
+    print("escriba un n para ingresar n número de listas")
+    n = int(input())
+    matriz = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números".format(x + 1, n, n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        matriz.append(list(map(int, ingreso)))
+    arr = np.array(matriz)
+    print("desea calcular la media según filas o columnas? ingrese F o C")
+    criterio = input()
+    if "F" != criterio and "C" != criterio:
+        print("ingrese F o C, nada más")
+        return None
+    if criterio == "F":
+        for fila in arr:
+            print("el promedio de la fila {} es : {}".format(fila, np.mean(fila)))
+    else:
+        t = arr.transpose()#para poder iterar las columnas
+        for columna in t:
+            print(" el promedio de la columna {} es {}".format(columna, np.mean(columna)))
+
+
+
+
+#ingrese una función que de el máximo de cada fila o columna en una matriz
+def once7():
+    print("escriba un n para ingresar n número de listas")
+    n = int(input())
+    matriz = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números".format(x + 1, n, n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        matriz.append(list(map(int, ingreso)))
+    arr = np.array(matriz)
+    print("desea calcular el máximo según filas o columnas? ingrese F o C")
+    criterio = input()
+    if "F" != criterio and "C" != criterio:
+        print("ingrese F o C, nada más")
+        return None
+    if criterio == "F":
+        for fila in arr:
+            print("el máximo de la fila {} es : {}".format(fila, fila.max())) #da el máximo del arreglo
+    else:
+        t = arr.transpose()#para poder iterar las columnas
+        for columna in t:
+            print(" el máximo de la columna {} es {}".format(columna, columna.max())) #da el máximo del arreglo
+
+#el mínimo
+def once8():
+    print("escriba un n para ingresar n número de listas")
+    n = int(input())
+    matriz = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números".format(x + 1, n, n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        matriz.append(list(map(int, ingreso)))
+    arr = np.array(matriz)
+    print("desea calcular el mínimo según filas o columnas? ingrese F o C")
+    criterio = input()
+    if "F" != criterio and "C" != criterio:
+        print("ingrese F o C, nada más")
+        return None
+    if criterio == "F":
+        for fila in arr:
+            print("el mínimo de la fila {} es : {}".format(fila, fila.min()))
+    else:
+        t = arr.transpose()#para poder iterar las columnas
+        for columna in t:
+            print(" el promedio de la columna {} es {}".format(columna, columna.min()))
+#sumar elemento por elemento
+#arr = np.array(matriz) #para convertirlo en un ndarray
+def once9():
+    print("escriba un n para ingresar n número de listas para la matriz 1")
+    n = int(input())
+    matriz = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números para la matriz 1".format(x + 1, n, n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        matriz.append(list(map(int, ingreso)))
+    print("escriba un n para ingresar n número de listas para la matriz 2")
+    n = int(input())
+    matriz2 = []
+    for x in range(n):
+        print("ingrese la lista {} (separada por espacios) de {} listas con n números para la matriz 2".format(x + 1, n, n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        matriz2.append(list(map(int, ingreso)))
+    arr1 = np.array(matriz)
+    arr2 = np.array(matriz2)
+    print("\n la suma de las matrices es: {}".format(np.add(arr1,arr2)))
+
+#producto matricial
+def once10():
+    print("escriba un n para ingresar n número de listas para la matriz 1")
+    n = int(input())
+    matriz = []
+    for x in range(n):
+        print(
+            "ingrese la lista {} (separada por espacios) de {} listas con n números para la matriz 1".format(x + 1,
+                                                                                                             n, n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        matriz.append(list(map(int, ingreso)))
+    print("escriba un n para ingresar n número de listas para la matriz 2")
+    n = int(input())
+    matriz2 = []
+    for x in range(n):
+        print(
+            "ingrese la lista {} (separada por espacios) de {} listas con n números para la matriz 2".format(x + 1,
+                                                                                                             n, n))
+        ingreso = input().split()
+        if len(ingreso) != n:
+            print("por favor, ingrese lo especificado")
+            return None
+        matriz2.append(list(map(int, ingreso)))
+    arr1 = np.array(matriz)
+    arr2 = np.array(matriz2)
+    print("\n la suma de las matrices es: {}".format(arr1 @ arr2))
+
+
 
