@@ -14,7 +14,7 @@ def gauss(matriz):
         i)fil3Col2 -= fil2Col2*(fil3Col2/fil2Col2) y hacer esto para el resto de las columnas en la fila 3
 ...
 n) filaN: poner 0 en todas las posiciones a la izquierda de la columna N
-    a) restar una combinación lineal de la filaX tal que la columnaX de mi filaN quede en 0
-        c)  filNColX -= filXColX*(filNColX/filXColX) y hacer eso para todas las columnas de la fila 2
+    a) restar una combinación lineal de la filaX a la filaN tal que la columnaX de mi filaN quede en 0
+        c)  filNColX -= filXColX*(filNColX/filXColX) y hacer eso para el resto de columnas de la fila N
 
 '''
