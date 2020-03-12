@@ -55,7 +55,7 @@ def punto1():
 
 
 
-def punto2():
+def punto2(mostrar=True):
     print("ingrese en la primera línea el tamaño de la matriz A y en las siguientes las filas de la matriz con columnas separadas por espacios (referir a las ejemplos)")
     n=int(input())#numero de filas
     mat=[]
@@ -78,12 +78,13 @@ def punto2():
     for fIndex in range(len(mat)-1,-1,-1):
         cIndex = len(mat[0])-2#para no contar el del vector b
         while cIndex > fIndex:
-           # mat[fIndex][cIndex] = mat[fIndex][cIndex] - (mat[cIndex][cIndex]/mat[fIndex][cIndex])*mat[currentC][cIndex]
+            constante = (mat[fIndex][cIndex] / mat[cIndex][cIndex])
+            mat[fIndex] = [mat[fIndex][currentC] - constante*mat[cIndex][currentC] for currentC in range(len(mat[0]))]
             cIndex -= 1
-    print(mat)
     coefficients = [mat[i][-1]/mat[i][i] for i in range(len(mat))]#recorre la diagonal principal y calcula el valor del vector b tal que la identidad de A sea 1
-
-    print("los valores que yo calculé son:\n {} \nlos de numpy son: \n {}".format(coefficients,np.linalg.solve(A,b)))
+    if mostrar:
+        print("los valores que yo calculé son:\n {} \nlos de numpy son: \n {}".format(coefficients,np.linalg.solve(A,b)))
+    return coefficients
 
 punto2()
 #para el punto 4 y 5 toca usar polares. rcos y rsen
