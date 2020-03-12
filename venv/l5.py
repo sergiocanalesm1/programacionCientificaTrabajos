@@ -15,9 +15,9 @@ ejemplos de entrada para punto 1:
 
 
 3
-3 2 1 1
-2 6 9 1
-1 9 5 1
+3 2 1 1 0 0
+2 6 9 0 1 0
+1 9 5 0 0 1
 
 '''
 #es necesario correr esta función sin cellblock, para que ingresar la matriz sea más fácil
@@ -66,8 +66,9 @@ def punto2(mostrar=True):
         A.append(mat[_][:-1])#meterle todos los datos menos el último
         b.append([mat[_][-1]])#meterle el último dato
     #algoritmo
+
     for fIndex in range(n):
-        for cIndex in range(len(mat[0])):
+        for cIndex in range(3):
             if cIndex ==fIndex:
                 break
             coefficient = (mat[fIndex][cIndex]/mat[cIndex][cIndex])#coeficiente para que se ponga cero en el CIndex y convierta el resto de la fila
@@ -76,15 +77,19 @@ def punto2(mostrar=True):
 
 
     for fIndex in range(len(mat)-1,-1,-1):
-        cIndex = len(mat[0])-2#para no contar el del vector b
+        cIndex = 2#para no contar el del vector b
         while cIndex > fIndex:
             constante = (mat[fIndex][cIndex] / mat[cIndex][cIndex])
             mat[fIndex] = [mat[fIndex][currentC] - constante*mat[cIndex][currentC] for currentC in range(len(mat[0]))]
             cIndex -= 1
-    coefficients = [mat[i][-1]/mat[i][i] for i in range(len(mat))]#recorre la diagonal principal y calcula el valor del vector b tal que la identidad de A sea 1
-    if mostrar:
-        print("los valores que yo calculé son:\n {} \nlos de numpy son: \n {}".format(coefficients,np.linalg.solve(A,b)))
-    return coefficients
 
-punto2()
+    for f in range(n):
+        mat[f] = [mat[f][i]/mat[f][f] for i in range(len(mat[0]))]#poner la identidad
+    coefficients = [mat[i][-1]/mat[i][i] for i in range(len(mat))]#recorre la diagonal principal y calcula el valor del vector b tal que la identidad de A sea 1
+
+    #if mostrar:
+     #   print("los valores que yo calculé son:\n {} \nlos de numpy son: \n {}".format(coefficients,np.linalg.solve(A,b)))
+    return mat[][2:]
+
+print(punto2())
 #para el punto 4 y 5 toca usar polares. rcos y rsen
