@@ -1,5 +1,5 @@
 import numpy as np
-print()
+import matplotlib.pyplot as plt
 def gauss(matriz):
 
     pass
@@ -18,3 +18,24 @@ n) filaN: poner 0 en todas las posiciones a la izquierda de la columna N
         c)  filNColX -= filXColX*(filNColX/filXColX) y hacer eso para el resto de columnas de la fila N
 
 '''
+def sistema_lineal():
+    N = 100
+    x = np.sort(np.random.rand(N)*100)
+    y = np.sort(np.random.rand(N)*100)
+    A = [[1,np.mean(x)],[np.mean(x), (1/N)*np.sum(x**2)]]
+    b = [[np.mean(y)],[(1/N)*np.sum(x*y)]]
+    c= np.linalg.solve(A,b)#resolver un sistema lineal
+
+    numpySol = np.polyfit(x,y,1)
+    print("mio: {} \n numpy: {}".format(c, numpySol))
+
+    recta = np.polyval(x,numpySol)
+    print(recta)
+    plt.figure()
+    plt.plot(x,y,".r")
+    toplot=  recta[0]*x+recta[1]
+    #print(toplot)
+    plt.plot(x,toplot,"b")
+    plt.show()
+
+sistema_lineal()
