@@ -8,6 +8,7 @@
 ##
 import numpy as np
 import matplotlib.pyplot as plt
+import struct as st
 ##
 
 def punto1():
@@ -41,10 +42,16 @@ def punto1():
             m[i] -= m[j]*(m[j][j]*m[i][j])
 
     print(m[:,-1])#coeficientes
-
+##
 def punto3():
-    
+    f = open('Lab-Reg-X.bin',"rb")
+    file = f.read()
+    paqueteX = st.unpack("d"*int(len(file)/8),file)
+    f = open('Lab-Reg-Y.bin', "rb")
+    file = f.read()
+    paqueteY = st.unpack("d" * int(len(file) / 8), file)
+    print(paqueteX)
+    print(paqueteY)
 
 
-
-punto1()
+punto3()
