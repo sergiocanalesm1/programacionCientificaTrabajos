@@ -9,7 +9,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import struct as st
-##
+
 
 def punto1(default=True,A=[],b=[],n=0):
     if default:
@@ -19,7 +19,7 @@ def punto1(default=True,A=[],b=[],n=0):
     m = np.concatenate((A,b),axis=1)#se crea la matriz agregada
 
     At = np.transpose(A)#solo se tiene en cuenta la matriz A
-    max_indices = np.argmax(At,axis=1)#encuentra el indice del pivote
+    max_indices = np.argmax(np.abs(At),axis=1)#encuentra el indice del pivote
 
     #poner pivotes
     for i in range(n):
@@ -44,12 +44,12 @@ def punto1(default=True,A=[],b=[],n=0):
             m[i] -= m[j]*(m[j][j]*m[i][j])
     coeficientes = m[:,-1]#coeficientes que se están poniendo en donde entra el vector b
     if default:
-        print(coeficientes)
-        print(np.linalg.solve(A,b))
+        print("mis coeficientes son:\n",coeficientes,"\n")
+        print("los coeficientes de numpy son:\n",np.linalg.solve(A,b))
     else:
         return coeficientes
 
-## no sé por qué no sirve con el cell block plugin. No encuentra el archivo pero corriendo todo el script sí funciona
+# no sé por qué no sirve con el cell block plugin. No encuentra el archivo pero corriendo todo el script sí funciona
 def punto3():
 
     f = open('Lab-Reg-X.bin',"rb")
@@ -68,6 +68,8 @@ def punto3():
     solucion = regresion(x,y)
 
     p = np.polyfit(x, y, 1)
+    print("mis coeficientes son: m = {} y b = {} \n".format(solucion[1],solucion[0]) )
+    print("los coeficientes de numpy son: m = {} y b = {} \n".format(p[0],p[1]) )
     yr = np.polyval(p,x)
 
     plt.figure()
@@ -100,7 +102,12 @@ def punto4():
     m2 = solWomen[1]
     b2 = solWomen[0]
 
-    intersectionX = np.ceil((b2-b1)/(m1-m2))#se tiene que redondear para arriba porque estamos tomando años como nuestro x
+    pM = np.polyfit(years,men,1)
+    pW = np.polyfit(years,women,1)
+    print("Hombres: mis coeficientes son: m = {} y b = {} y los de numpy son m = {} y b = {}\n".format(m1, b1,pM[0], pM[1]))
+    print("Mujeres: mis coeficientes son: m = {} y b = {} y los de numpy son m = {} y b = {}".format(m2, b2,pW[0], pW[1]))
+
+    intersectionX = (b2-b1)/(m1-m2)
     intersectionY = m1*intersectionX+b1
 
     domain = np.arange(1928,2200,4)
@@ -111,7 +118,7 @@ def punto4():
     plt.plot(domain, m1*domain+b1,"b",label="men regression")
     plt.plot(domain, m2*domain + b2,"g",label="women regression")
     plt.plot(intersectionX,intersectionY,"ro",label="intersection")
-    plt.text(intersectionX-20,intersectionY+1,"({} , {})".format(intersectionX,round(intersectionY,2)))
+    plt.text(intersectionX-20,intersectionY+1,"({} , {})".format(round(intersectionX,2),round(intersectionY,2)))
     plt.legend(loc='lower left')
     plt.show()
 punto4()
