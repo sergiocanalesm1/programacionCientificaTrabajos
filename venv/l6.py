@@ -50,29 +50,22 @@ def punto1(default=True,A=[],b=[],n=0):
         return coeficientes
 
 ## no sé por qué no sirve con el cell block plugin. No encuentra el archivo pero corriendo todo el script sí funciona
-def punto3(default=True,x=[],y=[]):
-    if default:
-        f = open('Lab-Reg-X.bin',"rb")
-        file = f.read()
-        paqueteX = st.unpack("d"*int(len(file)/8),file)
-        f = open('Lab-Reg-Y.bin', "rb")
-        file = f.read()
-        paqueteY = st.unpack("d" * int(len(file) / 8), file)
+def punto3():
 
-        #como son tuplas, toca pasarla a listas y luego a arreglos de numpy
-        x = np.array(list(paqueteX))
-        y = np.array(list(paqueteY))
-    meanX = np.mean(x)
-    meanY = np.mean(y)
-    N = np.size(x)
+    f = open('Lab-Reg-X.bin',"rb")
+    file = f.read()
+    paqueteX = st.unpack("d"*int(len(file)/8),file)
+    f.close()
+    f = open('Lab-Reg-Y.bin', "rb")
+    file = f.read()
+    paqueteY = st.unpack("d" * int(len(file) / 8), file)
+    f.close()
 
-    #los valores que van en la matriz
-    a2 = np.sum(x**2)/N
-    b2 = np.sum(x*y)/N
+    #como son tuplas, toca pasarla a listas y luego a arreglos de numpy
+    x = np.array(list(paqueteX))
+    y = np.array(list(paqueteY))
 
-    A = np.array([[1,meanX],[meanX,a2]])
-    b = np.array([[meanY],[b2]])
-    solucion = punto1(False,A=A,b=b,n=len(A[0]))
+    solucion = regresion(x,y)
 
     p = np.polyfit(x, y, 1)
     yr = np.polyval(p,x)
@@ -85,4 +78,40 @@ def punto3(default=True,x=[],y=[]):
 
     return solucion
 
-punto3()
+def regresion(x,y):
+    meanX = np.mean(x)
+    meanY = np.mean(y)
+    N = np.size(x)
+
+    # matriz para coeficientes de regresion lineal
+    A = np.array([[1, meanX], [meanX, np.sum(x ** 2) / N]])
+    b = np.array([[meanY], [np.sum(x * y) / N]])
+
+    return punto1(False, A=A, b=b, n=len(A[0]))
+
+def punto4():
+    women = np.array([12.20,11.90,11.50,11.90,11.50,11.50,11.00,11.40,11.08,11.07,11.08,11.06,10.97,10.54,10.82,10.94,10.75,10.93])
+    men = np.array([10.80,10.30,10.30,10.30,10.40,10.50,10.20,10.00,9.95,10.14,10.06,10.25,9.99,9.92,9.96,9.84,9.87,9.85])
+    years = np.array([1928,1932,1936,1948,1952,1956,1960,1964,1968,1972,1976,1980,1984,1988,1992,1996,2000,2004])
+    solMen = regresion(years,men)
+    solWomen = regresion(years,women)
+    m1 = solMen[1]
+    b1 = solMen[0]
+    m2 = solWomen[1]
+    b2 = solWomen[0]
+
+    intersectionX = np.ceil((b2-b1)/(m1-m2))#se tiene que redondear para arriba porque estamos tomando años como nuestro x
+    intersectionY = m1*intersectionX+b1
+
+    domain = np.arange(1928,2200,4)
+    plt.figure()
+    plt.axis([1928, 2200, 0, 15])
+    plt.plot(years,women,".g",label="women data")
+    plt.plot(years,men,".b",label="men data")
+    plt.plot(domain, m1*domain+b1,"b",label="men regression")
+    plt.plot(domain, m2*domain + b2,"g",label="women regression")
+    plt.plot(intersectionX,intersectionY,"ro",label="intersection")
+    plt.text(intersectionX-20,intersectionY+1,"({} , {})".format(intersectionX,round(intersectionY,2)))
+    plt.legend(loc='lower left')
+    plt.show()
+punto4()
