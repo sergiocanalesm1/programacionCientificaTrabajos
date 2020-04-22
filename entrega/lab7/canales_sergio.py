@@ -146,7 +146,7 @@ def tabla(metodo,f,x0,x1):
 
 
 def llenar_tabla():
-    a = open("tabla1.txt","w")
+    a = open("tabla.txt","w")
     a.write("\t \t \t \t iteraciones \t raiz \t f(raiz) \n \n")
 
     #i)
@@ -196,7 +196,7 @@ def prueba_puntofijo():
     i_e = sym.lambdify([x],i,"numpy")
     ii_e = sym.lambdify([x], ii, "numpy")
     iii_e = sym.lambdify([x], iii, "numpy")
-    a = open("tabla2.txt","w")
+    a = open("prueba_puntofijo.txt","w")
     intervalo = np.arange(1,1.5,0.1)
     gs =[i,ii,iii]
     gse = [i_e,ii_e,iii_e]
@@ -239,4 +239,3 @@ intervalos()
 prueba_puntofijo()
 prueba_newton()
 tasa_convergencia_newton()
-
