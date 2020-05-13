@@ -23,5 +23,7 @@ yi = np.array([30,92,21,159,96,236])
 xk = np.array([14,18,20,22,24,26,30,31])
 #xk = np.array([15,19,21,25,27,29])
 
+
+
 print(lagrange(xi,yi,xk))
 print(valores_python(xi,yi,xk))
