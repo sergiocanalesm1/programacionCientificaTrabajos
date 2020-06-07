@@ -79,10 +79,14 @@ def F3euback(x,y,z,a,b,theta,t,h):
 
     return z/(1-h*(-Fsum - (z - z0)))
 
-def F1euMod(t, h):
-    return (1 - (h / 2.0) *
-            (0.49 - ((0.00245 * np.exp(0.49 * t)) /
-                     (0.49 + 0.005 * (np.exp(0.49 * t) - 1)))))
+def F1eulerMod(x,y,Trr,h):
+    a = 1 - np.sqrt(x ** 2 + y ** 2)
+    w = 2 * np.pi / Trr
+    return x + (h/2)*((a*x - w*y)*x)/(1-(h/2)*(a*x - w*y))#esta mal, deben ser doss ecuaciones direntes
+def F2eulerMod(x,y,Trr,h):#https://www.youtube.com/watch?v=QELNiGDhgbY
+    a = 1 - np.sqrt(x**2 + y**2)
+    w = 2 * np.pi / Trr
+    return y + (h/2)*((a*y + w*y)*y)/(1-(h/2)*(a*y + w*x))
 #t=[-0.2,-0.05,0,0.05,0.3]
 def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*np.pi,(-1/12)*np.pi,0,(1/12)*np.pi,(1/2)*np.pi], FC=80, Tf=30.0, fs=360):#fc es frecuencia cardiaca, tf es numero de latidos, fs es frecuencia muestreo
 
@@ -129,10 +133,14 @@ def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*
 
 
         YeulerBack[i] = YeulerBack[i-1] + F2euback(XeulerBack[i-1],YeulerBack[i-1],1/tRR[i],h)
-        XeulerBack[i] = XeulerBack[i-1] + F1euback(XeulerBack[i-1],YeulerBack[i-1],1/tRR[i],h)#no se si sesa con i o i-1
-        ZeulerBack[i] = F3euback(XeulerBack[i], YeulerBack[i], ZeulerBack[i-1], a, b,theta, T[i], h)
+        XeulerBack[i] = XeulerBack[i-1] + F1euback(XeulerBack[i-1],YeulerBack[i-1],1/tRR[i],h)
+        ZeulerBack[i] = ZeulerBack[i-1] /(1-h*(F3(XeulerBack[i], YeulerBack[i], ZeulerBack[i-1], a, b,theta, T[i])))
+
+        XeulerMod[i] = XeulerMod[i-1] + F1eulerMod(XeulerMod[i-1],YeulerMod[i-1],1/tRR[i],h)#hace falta algun valor actual
+        YeulerMod[i] = YeulerMod[i-1] + F2eulerMod(XeulerMod[i-1], YeulerMod[i-1], 1 / tRR[i],h)
+        ZeulerMod[i] = ZeulerMod[i-1] + (h/2)*(F3(XeulerMod[i-1],YeulerMod[i-1],ZeulerMod[i-1],a,b,theta,T[i-1])+F3(XeulerMod[i],YeulerMod[i],ZeulerMod[i],a,b,theta,T[i]))
+
         """
-        
         Yeumod[i] = (Yeumod[i - 1] +
                      (h / 2.0) * F1(T[i - 1], Yeumod[i - 1])) / F1euMod(T[i], h)
         k1 = F1(T[i - 1], YRK2[i - 1])
@@ -148,6 +156,7 @@ def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*
     plt.figure()
     plt.plot(T,ZeulerForward)
     plt.plot(T,ZeulerBack,"r")
+    plt.plot(T,ZeulerMod,"y")
     plt.show()
 
     return ZeulerForward
