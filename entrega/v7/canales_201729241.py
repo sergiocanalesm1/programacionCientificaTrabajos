@@ -9,6 +9,7 @@ def F1euMod(t,h):
     return (1-(h/2.0)*
             (0.49-((0.00245 * np.exp(0.49*t))/
                    (0.49+0.005*(np.exp(0.49*t)-1)))))
+
 def eulerBack(h=0.01):
 
     Y0 = 0.01
@@ -56,10 +57,12 @@ def todas(h=0.01):
     YeulerBack = np.zeros(np.size(T))
     Yeumod = np.zeros(np.size(T))
     YRK2 = np.zeros(len(T))
+    YRK4 = np.zeros(len(T))
     YeulerForward[0] = Y0
     YeulerBack[0] = Y0
     Yeumod[0] = Y0
     YRK2[0] = Y0
+    YRK4[0] = Y0
     for i in range(1, np.size(T)):
         YeulerForward[i] = YeulerForward[i-1] + h*F1(T[i-1],YeulerForward[i-1])
         YeulerBack[i] = Feuback(T[i - 1], YeulerBack[i - 1], h)
@@ -68,12 +71,20 @@ def todas(h=0.01):
         k1 = F1(T[i-1],YRK2[i-1])
         k2 = F1(T[i-1]+h,YRK2[i-1]+k1*h)
         YRK2[i] = YRK2[i-1]+(h/2.0)*(k1+k2)
+
+        k1 = F1(T[i - 1], YRK4[i - 1])
+        k2 = F1(T[i-1]+0.5*h,YRK4[i-1]+0.5*k1*h)
+        k3 = F1(T[i - 1] + 0.5 * h, YRK4[i - 1] + 0.5 * k2 * h)
+        k4 = F1(T[i -1]+h,YRK4[i-1]+k3*h)
+        YRK4[i] = YRK4[i-1] +(h/6.0) * (k1+2.0*k2+2.0*k3+k4)
+
     plt.figure()
     plt.title("h = " + str(h))
     plt.plot(T, YeulerForward, "r", label="forward")
     plt.plot(T, YeulerBack, "g", label="back")
     plt.plot(T, Yeumod, "k", label="mod")
     plt.plot(T,YRK2,"y",label="RK2")
+    plt.plot(T, YRK4, "m", label="RK4")
     plt.plot(T, analitic(T), "--b", label="analitic")
     # plt.text()
     plt.xlabel("t", fontsize=15)
