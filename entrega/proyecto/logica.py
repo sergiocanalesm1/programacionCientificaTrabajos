@@ -4,6 +4,7 @@ import math
 from scipy.signal import find_peaks
 from scipy.misc import electrocardiogram
 import matplotlib.pyplot as plt
+import struct as st
 
 def hallarHR(ecg = electrocardiogram(),fs=360,h=0.5,w=5):
     time = np.arange(ecg.size)/fs
@@ -18,7 +19,7 @@ def hallarHR(ecg = electrocardiogram(),fs=360,h=0.5,w=5):
     plt.plot(peaks/fs,ecg[peaks],"o")
     plt.show()
     """
-    return HR
+    return round(HR,2)
 
 def ecg(v,t,w,ai,bi,thi):#ignorar esta, era para porobar con scipy pero no se como hacerlo
     a = 1 - np.sqrt(v[1]**2+v[0]**2)
@@ -32,6 +33,7 @@ def ecg(v,t,w,ai,bi,thi):#ignorar esta, era para porobar con scipy pero no se co
     z0 = A*np.sin(2*np.pi*f2*t)
     dz = - np.sum(ai*dthi*np.exp(dthi**2/(2*bi**2)))-(z-z0)
 
+
 def F1(x,y,Trr):
     a = 1 - np.sqrt(x**2+y**2)
     w = (2*np.pi/Trr)
@@ -41,7 +43,7 @@ def F2(x,y,Trr):
     a = 1 - np.sqrt(x**2 + y**2)
     w = (2 * np.pi / Trr)
     return a*y + w*x
-def F3(x,y,a,b,theta,t,z):
+def F3(x,y,z,a,b,theta,t):
     Fsum = 0
     A = 0.15
     f2 = 0.25  # 4 respiraciones por segundo
@@ -58,30 +60,42 @@ def F3(x,y,a,b,theta,t,z):
 def F1euback(x, y,Trr,h):
     a = 1 - np.sqrt(x**2 + y**2)
     w = 2*np.pi/Trr
-    return y / (1 - h * (a*x - w*y))
+    return x / (1 - h * (a*x - w*y))
 
 def F2euback(x, y,Trr,h):
     a = 1 - np.sqrt(x**2 + y**2)
     w = 2*np.pi/Trr
     return y / (1 - h * (a*y + w*y))
+def F3euback(x,y,z,a,b,theta,t,h):
+    Fsum = 0
+    A = 0.15
+    f2 = 0.25  # 4 respiraciones por segundo
+    THETA = np.arctan2(y,x)
+    z0 = A*np.sin(2*np.pi*f2*t)
 
+    for i in range(len(a)):# P,Q,R,S,T
+        dthi = np.fmod(THETA - theta[i], 2*np.pi) #para negativos y positivos usar fmod
+        Fsum += a[i]*dthi*np.exp(-(dthi**2)/(2*b[i]**2))
+
+    return z/(1-h*(-Fsum - (z - z0)))
 
 def F1euMod(t, h):
     return (1 - (h / 2.0) *
             (0.49 - ((0.00245 * np.exp(0.49 * t)) /
                      (0.49 + 0.005 * (np.exp(0.49 * t) - 1)))))
-#,t=[-0.2,-0.05,0,0.05,0.3]
-def calcular(a = [1.2,-5.0,30.0,-7.5,0.75],b = [0.25,0.1,0.1,0.1,0.4],theta = [(-1/3)*np.pi,(-1/12)*np.pi,0,(1/12)*np.pi,(1/2)*np.pi], FC=80, Tf=30.0, fs=360):#fc es frecuencia cardiaca, tf es numero de latidos, fs es frecuencia muestreo
+#t=[-0.2,-0.05,0,0.05,0.3]
+def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*np.pi,(-1/12)*np.pi,0,(1/12)*np.pi,(1/2)*np.pi], FC=80, Tf=30.0, fs=360):#fc es frecuencia cardiaca, tf es numero de latidos, fs es frecuencia muestreo
+
     Y0 = 0.0
-    X0 = 1.0#como es un circulo unitario, X0+Y0 tiene que ser igual a 1
-    Z0 = 0.3#valor entre 0 y 0.5
+    X0 = 1.0 #como es un circulo unitario, X0+Y0 tiene que ser igual a 1
+    Z0 = 0.1 #valor entre 0 y 0.5
     T0 = 0.0
     h = 1 / fs
     T = np.arange(T0, Tf + h, h)
 
     #para calcular el tiempo entre R y más adelante calcular el w
     meanFC = 60 / FC
-    stdFC = meanFC * 0.05#la desviacion debería ser del 5%
+    stdFC = meanFC * 0.05 #la desviacion debería ser del 5%
     tRR = np.random.normal(meanFC, stdFC, np.size(T))#arreglo con len(T) numeros aleatorios
 
     XeulerForward = np.zeros(np.size(T))
@@ -91,22 +105,34 @@ def calcular(a = [1.2,-5.0,30.0,-7.5,0.75],b = [0.25,0.1,0.1,0.1,0.4],theta = [(
     ZeulerForward = np.zeros(np.size(T))
     ZeulerForward[0] = Z0
 
+    XeulerBack = np.zeros(np.size(T))
+    XeulerBack[0] = X0
     YeulerBack = np.zeros(np.size(T))
-    Yeumod = np.zeros(np.size(T))
-    YRK2 = np.zeros(len(T))
-    YRK4 = np.zeros(len(T))
-
     YeulerBack[0] = Y0
-    Yeumod[0] = Y0
-    YRK2[0] = Y0
-    YRK4[0] = Y0
+    ZeulerBack = np.zeros(np.size(T))
+    ZeulerBack[0] = Z0
+    
+    XeulerMod = np.zeros(np.size(T))
+    XeulerMod[0] = X0
+    YeulerMod = np.zeros(np.size(T))
+    YeulerMod[0] = Y0
+    ZeulerMod = np.zeros(np.size(T))
+    ZeulerMod[0] = Z0
+
+
+    
     for i in range(1, np.size(T)):
 
-        XeulerForward[i] = XeulerForward[i - 1] + h*F1(XeulerForward[i - 1],YeulerForward[i - 1],1/tRR[i])
+        XeulerForward[i] = XeulerForward[i - 1] + h*F1(XeulerForward[i - 1],YeulerForward[i - 1], 1/tRR[i])
         YeulerForward[i] = YeulerForward[i - 1] + h*F2(XeulerForward[i - 1],YeulerForward[i - 1], 1/tRR[i])
-        ZeulerForward[i] = ZeulerForward[i - 1] + h*F3(XeulerForward[i - 1],YeulerForward[i - 1],a,b,theta,T[i],ZeulerForward[i-1])
+        ZeulerForward[i] = ZeulerForward[i - 1] + h*F3(XeulerForward[i - 1],YeulerForward[i - 1],ZeulerForward[i-1],a,b,theta,T[i])
+
+
+        YeulerBack[i] = YeulerBack[i-1] + F2euback(XeulerBack[i-1],YeulerBack[i-1],1/tRR[i],h)
+        XeulerBack[i] = XeulerBack[i-1] + F1euback(XeulerBack[i-1],YeulerBack[i-1],1/tRR[i],h)#no se si sesa con i o i-1
+        ZeulerBack[i] = F3euback(XeulerBack[i], YeulerBack[i], ZeulerBack[i-1], a, b,theta, T[i], h)
         """
-        YeulerBack[i] = Feuback(T[i - 1], YeulerBack[i - 1], h)
+        
         Yeumod[i] = (Yeumod[i - 1] +
                      (h / 2.0) * F1(T[i - 1], Yeumod[i - 1])) / F1euMod(T[i], h)
         k1 = F1(T[i - 1], YRK2[i - 1])
@@ -121,7 +147,32 @@ def calcular(a = [1.2,-5.0,30.0,-7.5,0.75],b = [0.25,0.1,0.1,0.1,0.4],theta = [(
         """
     plt.figure()
     plt.plot(T,ZeulerForward)
+    plt.plot(T,ZeulerBack,"r")
     plt.show()
 
-np.seterr('raise')#para poder ver el error de runtime error
-calcular()
+    return ZeulerForward
+def exportar(z,t):#se exporta agrupando por double y se guarda en la misma carpeta
+    f=open("Z.bin","wb")
+    pack = st.pack("d"*int(len(z)),*z)
+    f.write(pack)
+    f.close()
+
+    f=open("T.bin","wb")
+    pack = st.pack("d"*int(len(t)),*z)
+    f.write(pack)
+    f.close()
+def cargar():#carga los archivos para z y t con nombres Z.bin y T.bin
+    f=open("Z.bin","rb")
+    z=f.read()
+    pack1 = st.unpack("d"*int(len(z)/8),z)
+    f.close()
+
+    f=open("T.bin","rb")
+    t=f.read()
+    pack2 = st.unpack("d"*int(len(t)/8),t)
+    f.close()
+    return pack1,pack2
+
+z=calcular()
+hr=hallarHR(ecg=z,h=0.1,w=1)
+print(hr)
