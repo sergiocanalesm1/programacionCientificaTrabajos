@@ -152,12 +152,13 @@ def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*
         k3 = F1(T[i - 1] + 0.5 * h, YRK4[i - 1] + 0.5 * k2 * h)
         k4 = F1(T[i - 1] + h, YRK4[i - 1] + k3 * h)
         YRK4[i] = YRK4[i - 1] + (h / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4)
-        """
+        
     plt.figure()
     plt.plot(T,ZeulerForward)
     plt.plot(T,ZeulerBack,"r")
     plt.plot(T,ZeulerMod,"y")
     plt.show()
+    """
 
     return ZeulerForward
 def exportar(z,t):#se exporta agrupando por double y se guarda en la misma carpeta
@@ -182,6 +183,5 @@ def cargar():#carga los archivos para z y t con nombres Z.bin y T.bin
     f.close()
     return pack1,pack2
 
-z=calcular()
-hr=hallarHR(ecg=z,h=0.1,w=1)
-print(hr)
+#z=calcular()
+#hr=hallarHR(ecg=z,h=0.1,w=1)
