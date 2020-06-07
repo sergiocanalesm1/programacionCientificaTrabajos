@@ -18,7 +18,7 @@ def hallarHR(ecg = electrocardiogram(),fs=360,h=0.5,w=5):
     plt.plot(time,ecg)
     plt.plot(peaks/fs,ecg[peaks],"o")
     plt.show()
-    """
+"""
     return round(HR,2)
 
 def ecg(v,t,w,ai,bi,thi):#ignorar esta, era para porobar con scipy pero no se como hacerlo
@@ -88,7 +88,7 @@ def F2eulerMod(x,y,Trr,h):#https://www.youtube.com/watch?v=QELNiGDhgbY
     w = 2 * np.pi / Trr
     return y + (h/2)*((a*y + w*y)*y)/(1-(h/2)*(a*y + w*x))
 #t=[-0.2,-0.05,0,0.05,0.3]
-def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*np.pi,(-1/12)*np.pi,0,(1/12)*np.pi,(1/2)*np.pi], FC=80, Tf=30.0, fs=360):#fc es frecuencia cardiaca, tf es numero de latidos, fs es frecuencia muestreo
+def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*np.pi,(-1/12)*np.pi,0,(1/12)*np.pi,(1/2)*np.pi], FC=80, Tf=30, fs=360):#fc es frecuencia cardiaca, tf es numero de latidos, fs es frecuencia muestreo
 
     Y0 = 0.0
     X0 = 1.0 #como es un circulo unitario, X0+Y0 tiene que ser igual a 1
@@ -129,7 +129,7 @@ def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*
 
         XeulerForward[i] = XeulerForward[i - 1] + h*F1(XeulerForward[i - 1],YeulerForward[i - 1], 1/tRR[i])
         YeulerForward[i] = YeulerForward[i - 1] + h*F2(XeulerForward[i - 1],YeulerForward[i - 1], 1/tRR[i])
-        ZeulerForward[i] = ZeulerForward[i - 1] + h*F3(XeulerForward[i - 1],YeulerForward[i - 1],ZeulerForward[i-1],a,b,theta,T[i])
+        ZeulerForward[i] = ZeulerForward[i - 1] + h*F3(XeulerForward[i - 1],YeulerForward[i - 1],ZeulerForward[i-1],a,b,theta,Tf)
 
 
         YeulerBack[i] = YeulerBack[i-1] + F2euback(XeulerBack[i-1],YeulerBack[i-1],1/tRR[i],h)
@@ -152,13 +152,14 @@ def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*
         k3 = F1(T[i - 1] + 0.5 * h, YRK4[i - 1] + 0.5 * k2 * h)
         k4 = F1(T[i - 1] + h, YRK4[i - 1] + k3 * h)
         YRK4[i] = YRK4[i - 1] + (h / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4)
-        
-    plt.figure()
-    plt.plot(T,ZeulerForward)
-    plt.plot(T,ZeulerBack,"r")
-    plt.plot(T,ZeulerMod,"y")
-    plt.show()
+           plt.figure()
+    plt.plot(T, ZeulerForward)
+    #plt.plot(T, ZeulerBack, "r")
+    #plt.plot(T, ZeulerMod, "y")
+    plt.show() 
+
     """
+
 
     return ZeulerForward
 def exportar(z,t):#se exporta agrupando por double y se guarda en la misma carpeta
@@ -184,4 +185,5 @@ def cargar():#carga los archivos para z y t con nombres Z.bin y T.bin
     return pack1,pack2
 
 #z=calcular()
-#hr=hallarHR(ecg=z,h=0.1,w=1)
+#hr=hallarHR(ecg=z,h=0.05,w=1)
+#print(hr)
