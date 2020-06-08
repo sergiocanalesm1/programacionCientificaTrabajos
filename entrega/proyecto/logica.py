@@ -73,12 +73,12 @@ def F1eulerMod(x,y,Trr,h):
     a = 1 - np.sqrt(x**2 + y**2)
     w = 2 * np.pi / Trr
     #return (x + (h/2)*((a*x - w*y)*x))/(1-(h/2)*(a*x - w*y))#esta mal, deben ser doss ecuaciones direntes
-    return (x+(h/2)*(a*x - w*y))/(1-h+h**2)
+    return (x+(h)*(a*x - w*y))/(1-h+h**2)
 
 def F2eulerMod(x,y,Trr,h):#https://www.youtube.com/watch?v=QELNiGDhgbY
     a = 1 - np.sqrt(x**2 + y**2)
     w = 2 * np.pi / Trr
-    return (x+(h/2)*(a*y + w*x))/(1-h+h**2)
+    return (y+(h)*(a*y + w*x))/(1-h+h**2)
 #t=[-0.2,-0.05,0,0.05,0.3]
 def eulerForward(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*np.pi,(-1/12)*np.pi,0,(1/12)*np.pi,(1/2)*np.pi], FC=80, Tf=10, fs=360):#fc es frecuencia cardiaca, tf es numero de latidos, fs es frecuencia muestreo
     Y0 = 0.0
@@ -137,8 +137,39 @@ def eulerBack(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)
         ZeulerBack[i] = ZeulerBack[i - 1] + h*F3(XeulerBack[i], YeulerBack[i], ZeulerBack[i-1], a, b,theta, Tf)
 
     return ZeulerBack,T #devuelve el z y el tiempo para poder graficar
+def eulerMod(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*np.pi,(-1/12)*np.pi,0,(1/12)*np.pi,(1/2)*np.pi], FC=80, Tf=10, fs=360):#fc es frecuencia cardiaca, tf es numero de latidos, fs es frecuencia muestreo
+    Y0 = 0.0
+    X0 = 1.0 #como es un circulo unitario, X0+Y0 tiene que ser igual a 1
+    Z0 = 0.1 #valor entre 0 y 0.5
+    T0 = 0.0
+    h = 1 / fs
+    T = np.arange(T0, Tf + h, h)
 
-def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*np.pi,(-1/12)*np.pi,0,(1/12)*np.pi,(1/2)*np.pi], FC=80, Tf=10, fs=360):#fc es frecuencia cardiaca, tf es numero de latidos, fs es frecuencia muestreo
+    #para calcular el tiempo entre R
+    meanFC = 60/FC
+    stdFC = meanFC*0.05 #la desviacion debería ser del 5%
+    tRR = np.random.normal(meanFC, stdFC, np.size(T)) #arreglo con len(T) numeros aleatorios cercanos a FC
+
+    XeulerMod = np.zeros(np.size(T))
+    XeulerMod[0] = X0
+    YeulerMod = np.zeros(np.size(T))
+    YeulerMod[0] = Y0
+    ZeulerMod = np.zeros(np.size(T))
+    ZeulerMod[0] = Z0
+
+    for i in range(1, np.size(T)):
+        RR = 1 / tRR[i]
+        XeulerMod[i] = XeulerMod[i - 1] + F1eulerMod(XeulerMod[i - 1], YeulerMod[i - 1], RR,
+                                                     h)  # hace falta algun valor actual
+        YeulerMod[i] = YeulerMod[i - 1] + F2eulerMod(XeulerMod[i - 1], YeulerMod[i - 1], RR, h)
+        ZeulerMod[i] = ZeulerMod[i - 1] + (h / 2) * (
+                    F3(XeulerMod[i - 1], YeulerMod[i - 1], ZeulerMod[i - 1], a, b, theta, Tf) + F3(XeulerMod[i],
+                                                                                                   YeulerMod[i],
+                                                                                                   ZeulerMod[i - 1], a,
+                                                                                                   b, theta, Tf))
+    return ZeulerMod, T
+
+def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*np.pi,(-1/12)*np.pi,0,(1/12)*np.pi,(1/2)*np.pi], FC=80, Tf=10, fs=360):
 
     Y0 = 0.0
     X0 = 1.0 #como es un circulo unitario, X0+Y0 tiene que ser igual a 1
@@ -191,7 +222,7 @@ def calcular(a=[1.2,-5.0,30.0,-7.5,0.75],b=[0.25,0.1,0.1,0.1,0.4],theta=[(-1/3)*
 
         XeulerMod[i] = XeulerMod[i-1] + F1eulerMod(XeulerMod[i-1],YeulerMod[i-1],RR,h)#hace falta algun valor actual
         YeulerMod[i] = YeulerMod[i-1] + F2eulerMod(XeulerMod[i-1], YeulerMod[i-1], RR,h)
-        ZeulerMod[i] = ZeulerMod[i-1] + (h/2)*(F3(XeulerMod[i-1],YeulerMod[i-1],ZeulerMod[i-1],a,b,theta,RR)+F3(XeulerMod[i],YeulerMod[i],ZeulerMod[i-1],a,b,theta,Tf))
+        ZeulerMod[i] = ZeulerMod[i-1] + (h/2)*(F3(XeulerMod[i-1],YeulerMod[i-1],ZeulerMod[i-1],a,b,theta,Tf)+F3(XeulerMod[i],YeulerMod[i],ZeulerMod[i-1],a,b,theta,Tf))
         #ZeulerMod[i] = ZeulerMod[i - 1] + (h/2)*F3(XeulerBack[i], YeulerBack[i], ZeulerBack[i-1], a, b,theta, Tf)
 
         """
@@ -240,6 +271,6 @@ def cargar():#carga los archivos para z y t con nombres Z.bin y T.bin
     f.close()
     return pack1,pack2
 
-#z,t=calcular()
+z,t=calcular()
 #hr=hallarHR(ecg=z,h=0.05,w=1)
 #print(hr)
