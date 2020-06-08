@@ -271,6 +271,6 @@ def cargar():#carga los archivos para z y t con nombres Z.bin y T.bin
     f.close()
     return pack1,pack2
 
-z,t=calcular()
+#z,t=calcular()
 #hr=hallarHR(ecg=z,h=0.05,w=1)
 #print(hr)
