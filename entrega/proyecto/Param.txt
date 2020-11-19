@@ -1,0 +1,2 @@
+Frecuencia Cardiáca, Número de latidos, Frecuencia de Muestreo, Factor de Ruido 
+80,10,360,
